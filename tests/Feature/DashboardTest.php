@@ -55,7 +55,7 @@ test('admin can access dashboard page on system administrator layout', function 
     );
 });
 
-test('user cannot access dashboard page on system administrator layout', function () {
+test('staff cannot access dashboard page on system administrator layout', function () {
     $user = User::factory()
     ->for(Role::factory()->state([
         'slug' => UserRole::Staff->value,
