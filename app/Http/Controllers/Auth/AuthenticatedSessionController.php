@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +34,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(
+            match($request->user()->role_id) {
+                UserRole::SystemAdministrator->id() => route('system-administrator.dashboard', absolute: false),
+                UserRole::Staff->id() => route('staff.dashboard', absolute: false),
+            }
+        );
     }
 
     /**
