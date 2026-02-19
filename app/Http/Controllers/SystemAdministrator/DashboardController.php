@@ -14,7 +14,7 @@ class DashboardController extends Controller
      */
     public function index(): Response
     {
-        $this->authorize('admin-view-any-dashboard', User::class);
+        $this->authorize('system-administrator-view-any-dashboard', User::class);
         
         return Inertia::render('SystemAdministrator/Dashboard/Index');
     }
