@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers\SystemAdministrator;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use Inertia\Inertia;
+use Inertia\Response;
 
-class DashboardController
+class DashboardController extends Controller
 {
-    public function index()
+    /** 
+     * @return Inertia\Response
+     */
+    public function index(): Response
     {
+        $this->authorize('system-administrator-view-any-dashboard', User::class);
+        
         return Inertia::render('SystemAdministrator/Dashboard/Index');
     }
 }

@@ -1,0 +1,69 @@
+<?php
+
+use App\Enums\UserRole;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
+
+use function Pest\Laravel\actingAs;
+
+
+uses(RefreshDatabase::class);
+
+test('staff can access dashboard page on staff layout', function () {
+    $user = User::factory()
+    ->for(Role::factory()->state([
+        'slug' => UserRole::Staff->value,
+    ]))
+    ->create();
+
+    actingAs($user)
+    ->get(route('staff.dashboard'))
+    ->assertStatus(200)
+    ->assertInertia(fn(Assert $page) =>
+        $page->component('Staff/Dashboard/Index')
+    );
+});
+
+test('admin cannot access dashboard page on staff layout', function () {
+    $user = User::factory()
+    ->for(Role::factory()->state([
+        'slug' => UserRole::SystemAdministrator->value,
+    ]))
+    ->create();
+
+    actingAs($user)
+    ->get(route('staff.dashboard'))
+    ->assertStatus(403)
+    ->assertSee('You are not allowed to access this resource');
+});
+
+
+test('admin can access dashboard page on system administrator layout', function () {
+    $user = User::factory()
+    ->for(Role::factory()->state([
+        'slug' => UserRole::SystemAdministrator->value,
+    ]))
+    ->create();
+
+    actingAs($user)
+    ->get(route('system-administrator.dashboard'))
+    ->assertStatus(200)
+    ->assertInertia(fn(Assert $page) =>
+        $page->component('SystemAdministrator/Dashboard/Index')
+    );
+});
+
+test('staff cannot access dashboard page on system administrator layout', function () {
+    $user = User::factory()
+    ->for(Role::factory()->state([
+        'slug' => UserRole::Staff->value,
+    ]))
+    ->create();
+
+    actingAs($user)
+    ->get(route('system-administrator.dashboard'))
+    ->assertStatus(403)
+    ->assertSee('You are not allowed to access this resource');
+});
