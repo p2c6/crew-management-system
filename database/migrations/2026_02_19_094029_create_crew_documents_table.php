@@ -13,15 +13,19 @@ return new class extends Migration
     {
         Schema::create('crew_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreign('crew_id')->references('id')->on('crews');
-            $table->foreign('document_id')->references('id')->on('documents');
+            $table->unsignedBigInteger('crew_id');
+            $table->unsignedBigInteger('document_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('file_name');
             $table->string('file_path');
             $table->string('code');
-            $table->date('issued_data');
+            $table->date('issued_date');
             $table->date('expiry_date');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
+
+            $table->foreign('crew_id')->references('id')->on('crews');
+            $table->foreign('document_id')->references('id')->on('documents');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
