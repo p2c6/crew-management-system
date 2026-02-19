@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SystemAdministrator\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,6 +24,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::controller(AdminDashboardController::class)
+    ->prefix('/system-administrator')
+    ->name('system-administrator.')
+    ->group(function() {
+        Route::get('/', fn() =>  redirect()->route('system-administrator.dashboard'))->name('index');
+        Route::get('/', 'index')->name('dashboard');
+    });
+    
+    Route::controller(StaffDashboardController::class)
+    ->prefix('/staff')
+    ->name('staff.')
+    ->group(function() {
+        Route::get('/', fn() =>  redirect()->route('staff.dashboard'))->name('index');
+        Route::get('/dashboard', 'index')->name('dashboard');
+    });
 });
 
 require __DIR__.'/auth.php';
