@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     ->name('system-administrator.')
     ->group(function() {
         Route::get('/', fn() =>  redirect()->route('system-administrator.dashboard'))->name('index');
-        Route::get('/', 'index')->name('dashboard');
+        Route::get('/dashboard', 'index')->name('dashboard');
     });
     
     Route::controller(StaffDashboardController::class)
