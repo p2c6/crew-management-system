@@ -1,30 +1,38 @@
 <script setup>
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from '@/Components/ui/breadcrumb';
+import Separator from '@/Components/ui/separator/Separator.vue';
+import { SidebarTrigger } from '@/Components/ui/sidebar';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { ChevronRight } from 'lucide-vue-next';
 </script>
 
 <template>
-    <Head title="Dashboard" />
-
     <AdminLayout>
-        <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Dashboard
-            </h2>
-        </template>
-
-        <div class="py-12">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div
-                    class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
-                >
-                    <div class="p-6 text-gray-900">
-                        You're logged in!
-                    </div>
-                </div>
+        <header class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            <div class="flex items-center gap-2 px-4">
+            <SidebarTrigger class="-ml-1" />
+            <Separator
+                orientation="vertical"
+                class="mr-2 data-[orientation=vertical]:h-4"
+            />
+            <Breadcrumb>
+                <BreadcrumbList>
+                <BreadcrumbItem class="hidden md:block">
+                    <BreadcrumbLink href="#">
+                    Building Your Application
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+                <ChevronRight size="1rem" />
+                <BreadcrumbSeparator class="hidden md:block" />
+                <BreadcrumbItem>
+                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
             </div>
+        </header>
+        <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
+            
         </div>
     </AdminLayout>
 </template>
