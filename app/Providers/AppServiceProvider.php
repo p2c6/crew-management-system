@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Policies\SystemAdministrator\Dashboard\DashboardPolicy as SystemAdministratorPolicy;
 use App\Policies\Staff\Dashboard\DashboardPolicy as StaffPolicy;
+use App\Policies\SystemAdministrator\Document\DocumentPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     private function bootGates(): void
     {
         Gate::define('system-administrator-view-any-dashboard', [SystemAdministratorPolicy::class, 'viewAny']);
+        Gate::define('system-administrator-view-any-documents', [DocumentPolicy::class, 'viewAny']);
         Gate::define('staff-view-any-dashboard', [StaffPolicy::class, 'viewAny']);
     }
 }
