@@ -31,7 +31,13 @@ class AppServiceProvider extends ServiceProvider
     private function bootGates(): void
     {
         Gate::define('system-administrator-view-any-dashboard', [SystemAdministratorPolicy::class, 'viewAny']);
+        
         Gate::define('system-administrator-view-any-documents', [DocumentPolicy::class, 'viewAny']);
+        Gate::define('system-administrator-view-documents', [DocumentPolicy::class, 'view']);
+        Gate::define('system-administrator-create-documents', [DocumentPolicy::class, 'create']);
+        Gate::define('system-administrator-update-documents', [DocumentPolicy::class, 'update']);
+        Gate::define('system-administrator-delete-documents', [DocumentPolicy::class, 'delete']);
+        
         Gate::define('staff-view-any-dashboard', [StaffPolicy::class, 'viewAny']);
     }
 }

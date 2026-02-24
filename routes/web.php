@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function () {
         ->name('documents.')
         ->group(function() {
             Route::get('/', 'index')->name('index');
+            Route::get('/{document}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::put('/{document}', 'update')->name('update');
+            Route::delete('/{document}', 'destroy')->name('destroy');
         });
     });
     

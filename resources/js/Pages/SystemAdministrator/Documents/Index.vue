@@ -4,6 +4,9 @@ import { SidebarTrigger } from '@/Components/ui/sidebar'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import DataTable from '@/Components/DataTable.vue'
 import { Button } from '@/Components/ui/button'
+import { toast } from 'vue-sonner'
+import 'vue-sonner/style.css'
+import { Toaster } from '@/Components/ui/sonner'
 import {
   Dialog,
   DialogClose,
@@ -19,10 +22,12 @@ import { Label } from '@/Components/ui/label'
 import {
   IconPencil,
   IconPlus,
-  IconTrash,
 } from "@tabler/icons-vue"
 import EditDocumentForm from './Partials/EditDocumentForm.vue'
 import DeleteDocumentDialog from './Partials/DeleteDocumentDialog.vue'
+import { useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import InputError from '@/Components/InputError.vue'
 const props = defineProps({
   documents: Object,
   filters: Object,
@@ -51,6 +56,31 @@ const columns = [
     ]
   }
 ];
+
+const isOpen = ref(false);
+
+const handleFormSuccess = () => {
+  isOpen.value = false; 
+};
+
+const form = useForm({
+  name: ''
+});
+
+const createeDocument = () => {
+  form.post(route('system-administrator.documents.store'), {
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset()
+      handleFormSuccess()
+      toast.success('Document has been created')
+    },
+    onError: (error) => {
+      console.log('create document error', error)
+    }
+  })
+}
+
 </script>
 
 <template>
@@ -65,7 +95,7 @@ const columns = [
 
     <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div class="flex justify-end">
-        <Dialog>
+        <Dialog v-model:open="isOpen">
           <DialogTrigger as-child>
             <Button variant="outline" size="sm" class="hover:bg-primary hover:text-white">
               <IconPlus />
@@ -81,11 +111,15 @@ const columns = [
               </DialogDescription>
             </DialogHeader>
 
-            <form>
+            <form @submit.prevent="createeDocument">
               <div class="grid gap-4 mb-2">
                 <div class="grid gap-3">
                   <Label for="name-1">Name</Label>
-                  <Input id="name-1" name="name" />
+                  <Input id="name-1" name="name" v-model="form.name" />
+                  
+                <InputError
+                    :message="form.errors.name"
+                />
                 </div>
               </div>
 
@@ -107,5 +141,6 @@ const columns = [
       />
 
     </div>
+    <Toaster />
   </AdminLayout>
 </template>
