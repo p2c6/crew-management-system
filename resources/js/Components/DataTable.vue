@@ -144,7 +144,7 @@ function showEllipsisBefore(index: number): boolean {
                 
                 <DropdownMenuSeparator v-if="index !== 0" />
                 <DropdownMenuItem as-child>
-                  <component :is="action.component" />
+                  <component :is="action.component" :data="row" />
                 </DropdownMenuItem>
               </template>
               
