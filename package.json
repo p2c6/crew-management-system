@@ -25,6 +25,7 @@
     "dependencies": {
         "@dnd-kit/dom": "^0.3.2",
         "@tabler/icons-vue": "^3.37.1",
+        "@tanstack/vue-table": "^8.19.3",
         "@unovis/ts": "^1.6.4",
         "@unovis/vue": "^1.6.4",
         "@vueuse/core": "^14.2.1",
@@ -35,6 +36,7 @@
         "reka-ui": "^2.8.2",
         "tailwind-merge": "^3.5.0",
         "tailwindcss-animate": "^1.0.7",
+        "vue-sonner": "^2.0.9",
         "zod": "^4.3.6"
     }
 }

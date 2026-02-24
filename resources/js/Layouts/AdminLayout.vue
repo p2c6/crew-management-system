@@ -8,7 +8,7 @@ import {
 <template>
   <SidebarProvider>
     <AppSidebar />
-    <SidebarInset>
+    <SidebarInset class="w-full">
       <slot />
     </SidebarInset>
   </SidebarProvider>
