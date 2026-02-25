@@ -2,9 +2,14 @@ name: Laravel Tests
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+      - develop
+      - feature/**
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
+      - develop
 
 jobs:
   laravel-tests:
@@ -13,26 +18,44 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # PHP
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           extensions: mbstring, pdo, sqlite, pdo_sqlite
           coverage: none
 
+      # Copy env
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
+      # Composer
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
+      # App key
       - name: Generate key
         run: php artisan key:generate
 
+      # 🟢 NODE + VITE BUILD (FIX)
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Build frontend assets
+        run: npm run build
+
+      # SQLite DB
       - name: Create SQLite Database
         run: |
           mkdir -p database
           touch database/database.sqlite
 
+      # Tests
       - name: Run Tests
         env:
           DB_CONNECTION: sqlite
