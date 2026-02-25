@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SystemAdministrator\Dashboard\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Staff\Dashboard\DashboardController as StaffDashboardController;
 use App\Http\Controllers\SystemAdministrator\Document\DocumentController;
+use App\Http\Controllers\SystemAdministrator\Rank\RankController;
 use App\Http\Controllers\SystemAdministrator\Role\RoleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,6 +53,17 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', 'store')->name('store');
             Route::put('/{role}', 'update')->name('update');
             Route::delete('/{role}', 'destroy')->name('destroy');
+        });
+
+        Route::controller(RankController::class)
+        ->prefix('/ranks')
+        ->name('ranks.')
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{rank}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::put('/{rank}', 'update')->name('update');
+            Route::delete('/{rank}', 'destroy')->name('destroy');
         });
     });
     
