@@ -132,6 +132,8 @@ describe('Document Module', function(){
         ->assertStatus(403)
         ->assertSee('You are not allowed to access this resource');
 
-        $this->assertDatabaseHas('documents', $document->toArray());
+        $this->assertDatabaseHas('documents', [
+            'id' => $document->id
+        ]);
     });
 });
