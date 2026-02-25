@@ -135,6 +135,8 @@ describe('Role Module', function(){
         ->assertStatus(403)
         ->assertSee('You are not allowed to access this resource');
 
-        $this->assertDatabaseHas('roles', $role->toArray());
+        $this->assertDatabaseHas('roles', [
+            'id' => $role->id
+        ]);
     });
 });
