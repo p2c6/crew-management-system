@@ -6,6 +6,7 @@ use App\Http\Controllers\Staff\Dashboard\DashboardController as StaffDashboardCo
 use App\Http\Controllers\SystemAdministrator\Document\DocumentController;
 use App\Http\Controllers\SystemAdministrator\Rank\RankController;
 use App\Http\Controllers\SystemAdministrator\Role\RoleController;
+use App\Http\Controllers\SystemAdministrator\User\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -64,6 +65,17 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', 'store')->name('store');
             Route::put('/{rank}', 'update')->name('update');
             Route::delete('/{rank}', 'destroy')->name('destroy');
+        });
+
+        Route::controller(UserController::class)
+        ->prefix('/users')
+        ->name('users.')
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{user}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::put('/{user}', 'update')->name('update');
+            Route::delete('/{user}', 'destroy')->name('destroy');
         });
     });
     

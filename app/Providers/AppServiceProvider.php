@@ -7,6 +7,7 @@ use App\Policies\Staff\Dashboard\DashboardPolicy as StaffPolicy;
 use App\Policies\SystemAdministrator\Document\DocumentPolicy;
 use App\Policies\SystemAdministrator\Rank\RankPolicy;
 use App\Policies\SystemAdministrator\Role\RolePolicy;
+use App\Policies\SystemAdministrator\User\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +35,12 @@ class AppServiceProvider extends ServiceProvider
     {
         //ADMIN DASHBOARD
         Gate::define('system-administrator-view-any-dashboard', [SystemAdministratorPolicy::class, 'viewAny']);
+         //USER
+        Gate::define('system-administrator-view-any-users', [UserPolicy::class, 'viewAny']);
+        Gate::define('system-administrator-view-users', [UserPolicy::class, 'view']);
+        Gate::define('system-administrator-create-users', [UserPolicy::class, 'create']);
+        Gate::define('system-administrator-update-users', [UserPolicy::class, 'update']);
+        Gate::define('system-administrator-delete-users', [UserPolicy::class, 'delete']);
         //DOCUMENT
         Gate::define('system-administrator-view-any-documents', [DocumentPolicy::class, 'viewAny']);
         Gate::define('system-administrator-view-documents', [DocumentPolicy::class, 'view']);
