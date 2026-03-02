@@ -43,7 +43,7 @@ const data = {
   system_administration: [
     {
       name: "Ranks",
-      url: "#",
+      url: route('system-administrator.ranks.index'),
       icon: IconDatabase,
     },
     {
@@ -58,7 +58,7 @@ const data = {
     },
     {
       name: "Users",
-      url: "#",
+      url: route('system-administrator.users.index'),
       icon: IconUsers,
     },
   ],
