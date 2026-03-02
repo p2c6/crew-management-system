@@ -46,10 +46,15 @@ interface ResourceCollection {
   meta: Meta
 }
 
+interface Component {
+  name: string
+  resources: any[]
+}
+
 interface AllowedActions {
   icon: any,
   label: string,
-  component: any,
+  component: Component
 }
 
 interface Separator {
@@ -103,6 +108,10 @@ function showEllipsisBefore(index: number): boolean {
   if (index === 0) return false
   return pageLinks.value[index].page - pageLinks.value[index - 1].page > 1
 }
+
+function getNestedValue(obj:any, path:any):any {
+  return path.split('.').reduce((acc:any, key:any) => acc?.[key], obj);
+}
 </script>
 
 <template>
@@ -123,7 +132,7 @@ function showEllipsisBefore(index: number): boolean {
             class="py-3 px-3 text-md font-medium"
           >
           <span v-if="column.accessorKey !== 'action'">
-            {{ row[column.accessorKey] }}
+            {{ getNestedValue(row, column.accessorKey) }}
           </span>
           <span v-show="column.accessorKey === 'action'">
             <DropdownMenu>
@@ -144,7 +153,7 @@ function showEllipsisBefore(index: number): boolean {
                 
                 <DropdownMenuSeparator v-if="index !== 0" />
                 <DropdownMenuItem as-child>
-                  <component :is="action.component" :data="row" />
+                  <component :is="action.component.name" :resources="action.component.resources" :data="row" />
                 </DropdownMenuItem>
               </template>
               
