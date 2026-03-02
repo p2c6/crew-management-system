@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Component } from "vue"
+import { Link } from "@inertiajs/vue3"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -25,10 +26,10 @@ defineProps<{
     <SidebarMenu>
       <SidebarMenuItem v-for="item in items" :key="item.name">
         <SidebarMenuButton as-child>
-          <a :href="item.url">
+          <Link :href="item.url">
             <component :is="item.icon" />
             <span>{{ item.name }}</span>
-          </a>
+          </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

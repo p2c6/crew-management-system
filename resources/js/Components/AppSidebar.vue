@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { route } from "ziggy-js"
 import {
   IconDashboard,
   IconDatabase,
@@ -47,12 +48,12 @@ const data = {
     },
     {
       name: "Documents",
-      url: "#",
+      url: route('system-administrator.documents.index'),
       icon: IconReport,
     },
     {
       name: "Roles",
-      url: "#",
+      url: route('system-administrator.roles.index'),
       icon: IconReport,
     },
     {
