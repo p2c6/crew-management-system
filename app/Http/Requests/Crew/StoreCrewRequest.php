@@ -11,7 +11,7 @@ class StoreCrewRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,7 +27,10 @@ class StoreCrewRequest extends FormRequest
             'middle_name' =>  'required',
             'last_name' =>  'required',
             'address' => 'required',
-            'birth_date' => 'required|date|before:date'
+            'birth_date' => 'required|date|before:|before:now',
+            'email' => 'required|unique:crews,email,except,id',
+            'height' => 'required|numeric',
+            'weight' => 'required|numeric',
         ];
     }
 }

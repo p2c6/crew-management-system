@@ -23,8 +23,6 @@ return new class extends Migration
             $table->unsignedBigInteger('height')->nullable();
             $table->unsignedBigInteger('weight')->nullable();
             $table->timestamps();
-            
-            $table->foreign('rank_id')->references('id')->on('ranks');
         });
     }
 

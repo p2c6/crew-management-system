@@ -23,7 +23,10 @@ class CrewFactory extends Factory
             'middle_name' =>  fake()->firstName(),
             'last_name' =>  fake()->lastName(),
             'address' => fake()->address(),
-            'birth_date' => fake()->date()
+            'birth_date' => fake()->date(),
+            'email' => fake()->email(),
+            'weight' => fake()->numberBetween(10, 999),
+            'height' => fake()->numberBetween(100, 999),
         ];
     }
 }

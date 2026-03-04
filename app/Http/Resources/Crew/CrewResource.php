@@ -23,6 +23,11 @@ class CrewResource extends JsonResource
             'last_name' => $this->last_name,
             'address' => $this->address,
             'birth_date' => $this->birth_date,
+            'age' => $this->age,
+            'height' => $this->height,
+            'weight' => $this->weight,
+            'bmi' => $this->bmi,
+            'email' => $this->email,
         ];
     }
 }
