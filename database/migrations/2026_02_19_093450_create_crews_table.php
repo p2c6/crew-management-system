@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('crews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('rank_id');
+            $table->foreignId('rank_id')->constrained()->cascadeOnDelete();
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
-            $table->string('address');
+            $table->string('email')->unique();
+            $table->text('address');
             $table->date('birth_date');
+            $table->unsignedBigInteger('height')->nullable();
+            $table->unsignedBigInteger('weight')->nullable();
             $table->timestamps();
             
             $table->foreign('rank_id')->references('id')->on('ranks');
