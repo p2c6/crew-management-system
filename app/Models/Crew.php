@@ -47,9 +47,9 @@ class Crew extends Model
         );
     }
 
-    public function crewDocuments(): HasMany
+    public function documents(): HasMany
     {
-        return $this->hasMany(CrewDocument::class);
+        return $this->hasMany(Document::class);
     }
 
     public function rank(): BelongsTo
