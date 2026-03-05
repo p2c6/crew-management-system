@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Policies\SystemAdministrator\Dashboard\DashboardPolicy as SystemAdministratorPolicy;
 use App\Policies\Staff\Dashboard\DashboardPolicy as StaffPolicy;
+use App\Policies\SystemAdministrator\Crew\CrewPolicy;
 use App\Policies\SystemAdministrator\Document\DocumentPolicy;
 use App\Policies\SystemAdministrator\Rank\RankPolicy;
 use App\Policies\SystemAdministrator\Role\RolePolicy;
@@ -59,6 +60,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('system-administrator-create-ranks', [RankPolicy::class, 'create']);
         Gate::define('system-administrator-update-ranks', [RankPolicy::class, 'update']);
         Gate::define('system-administrator-delete-ranks', [RankPolicy::class, 'delete']);
+        //CREW
+        Gate::define('system-administrator-view-any-crews', [CrewPolicy::class, 'viewAny']);
+        Gate::define('system-administrator-view-crews', [CrewPolicy::class, 'view']);
+        Gate::define('system-administrator-create-crews', [CrewPolicy::class, 'create']);
+        Gate::define('system-administrator-update-crews', [CrewPolicy::class, 'update']);
+        Gate::define('system-administrator-delete-crews', [CrewPolicy::class, 'delete']);
         //STAFF DASHBOARD
         Gate::define('staff-view-any-dashboard', [StaffPolicy::class, 'viewAny']);
     }

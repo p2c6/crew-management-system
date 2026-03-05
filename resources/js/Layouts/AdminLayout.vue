@@ -2,6 +2,7 @@
 import AppSidebar from "@/Components/AppSidebar.vue"
 import {
   SidebarProvider,
+  SidebarInset
 } from "@/Components/ui/sidebar"
 </script>
 
