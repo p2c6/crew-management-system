@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('crew_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('document_type_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->string('file_name');
+            $table->string('file_path');
+            $table->string('code');
+            $table->date('issued_date');
+            $table->date('expiry_date');
             $table->timestamps();
         });
     }

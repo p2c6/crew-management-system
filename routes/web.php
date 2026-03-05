@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SystemAdministrator\Dashboard\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Staff\Dashboard\DashboardController as StaffDashboardController;
+use App\Http\Controllers\SystemAdministrator\Crew\CrewController;
 use App\Http\Controllers\SystemAdministrator\Document\DocumentController;
 use App\Http\Controllers\SystemAdministrator\Rank\RankController;
 use App\Http\Controllers\SystemAdministrator\Role\RoleController;
@@ -76,6 +77,19 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', 'store')->name('store');
             Route::put('/{user}', 'update')->name('update');
             Route::delete('/{user}', 'destroy')->name('destroy');
+        });
+
+        Route::controller(CrewController::class)
+        ->prefix('/crews')
+        ->name('crews.')
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/{crew}/edit', 'edit')->name('edit');
+            Route::get('/{crew}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::put('/{crew}', 'update')->name('update');
+            Route::delete('/{crew}', 'destroy')->name('destroy');
         });
     });
     

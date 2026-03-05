@@ -10,7 +10,7 @@ import {
 import { Button } from '@/Components/ui/button'
 import {ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from 'lucide-vue-next'
 import { computed } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import {
   IconDotsVertical,
 } from "@tabler/icons-vue"
@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu"
+import SidebarMenuButton from './ui/sidebar/SidebarMenuButton.vue'
 
 interface Meta {
   current_page: number
@@ -52,14 +53,13 @@ interface Component {
 }
 
 interface AllowedActions {
-  icon: any,
-  label: string,
-  component: Component
+  icon: any;
+  label: string;
+  type: string;
+  url?: (row: any) => string;
+  component: Component | null;
 }
 
-interface Separator {
-  separator: true,
-}
 
 interface ColumnDef {
   accessorKey: string
@@ -139,21 +139,34 @@ function getNestedValue(obj:any, path:any):any {
               <DropdownMenuTrigger as-child>
                 <SidebarMenuButton
                   size="lg"
-                  class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <IconDotsVertical class="ml-auto size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                class="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-                :side-offset="4"
+                className="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                :side-offset="4"  
                 align="end"
               >
               <template v-for="(action, index) in column.allowedActions" :key="index">
                 
                 <DropdownMenuSeparator v-if="index !== 0" />
                 <DropdownMenuItem as-child>
-                  <component :is="action.component.name" :resources="action.component.resources" :data="row" />
+                  <Link v-if="action.type == 'link'" :href="action?.url?.(row)">
+                    <component :is="action.icon" :data="row" />
+                    {{ action.label }}
+                  </Link>
+              
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  v-if="action.type === 'component'"
+                  as-child
+                >
+                  <component
+                    :is="action?.component?.name"
+                    :data="row.id"
+                  />
                 </DropdownMenuItem>
               </template>
               
@@ -165,12 +178,12 @@ function getNestedValue(obj:any, path:any):any {
       </TableBody>
     </Table>
 
-    <div class="flex items-center justify-between px-2">
-      <p class="text-sm text-muted-foreground">
+    <div className="flex items-center justify-between px-2">
+      <p className="text-sm text-muted-foreground">
         Showing {{ meta.from }}–{{ meta.to }} of {{ meta.total }} results
       </p>
 
-      <nav class="flex flex-row items-center gap-1">
+      <nav className="flex flex-row items-center gap-1">
         <Button
           variant="ghost"
           size="default"
@@ -179,17 +192,17 @@ function getNestedValue(obj:any, path:any):any {
           :class="{ 'pointer-events-none opacity-50': !hasPrev }"
           @click="goToPage(meta.current_page - 1)"
         >
-          <ChevronLeftIcon class="size-4" />
-          <span class="hidden sm:block">Previous</span>
+          <ChevronLeftIcon className="size-4" />
+          <span className="hidden sm:block">Previous</span>
         </Button>
 
         <template v-for="(link, index) in pageLinks" :key="link.page">
           <span
             v-if="showEllipsisBefore(index)"
-            class="flex size-9 items-center justify-center text-muted-foreground"
+            className="flex size-9 items-center justify-center text-muted-foreground"
           >
-            <MoreHorizontalIcon class="size-4" />
-            <span class="sr-only">More pages</span>
+            <MoreHorizontalIcon className="size-4" />
+            <span className="sr-only">More pages</span>
           </span>
 
           <Button
