@@ -26,7 +26,7 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "https://ui-avatars.com/api/?name=Admin",
   },
   navMain: [
     {
@@ -36,7 +36,7 @@ const data = {
     },
     {
       title: "Crews",
-      url: "#",
+      url: route('system-administrator.crews.index'),
       icon: IconListDetails,
     },
   ],

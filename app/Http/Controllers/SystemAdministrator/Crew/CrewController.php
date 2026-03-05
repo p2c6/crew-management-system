@@ -7,8 +7,11 @@ use App\Http\Requests\Crew\StoreCrewRequest;
 use App\Http\Requests\Crew\UpdateCrewRequest;
 use App\Http\Resources\Crew\CrewCollection;
 use App\Http\Resources\Crew\CrewResource;
+use App\Http\Resources\Rank\RankCollection;
+use App\Http\Resources\Rank\RankResource;
 use App\Models\Crew;
 use App\Models\User;
+use App\Services\Rank\RankService;
 use App\Services\Role\RoleService;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -17,11 +20,11 @@ use Inertia\Response;
 class CrewController extends Controller
 {
     /**
-     * The instance of RoleService class
+     * The instance of RankService class
      * 
-     * @param App\Services\Role\RoleService $roleServiice
+     * @param App\Services\Rank\RankService $rankService
      */
-    public function __construct(protected RoleService $roleService) { }
+    public function __construct(protected RankService $rankService) { }
 
     /** 
      * @return Inertia\Response
@@ -37,7 +40,7 @@ class CrewController extends Controller
             ->orWhere('middle_name', 'like', '%' . request('search') . '%')
             ->orWhere('last_name', 'like', '%' . request('search') . '%')
             ->orWhere('address', 'like', '%' . request('search') . '%')
-            ->orWhereDate('birthdate', request('search') . '%')
+            ->orWhereDate('birth_date', request('search') . '%')
             ->orWhereHas('rank', function($q) {
                 $q->where('short_name', 'like', '%' . request('search') . '%');
             })
@@ -56,7 +59,13 @@ class CrewController extends Controller
 
     public function create()
     {
-        return Inertia::render('SystemAdministrator/Crews/Create');
+        $this->authorize('system-administrator-create-crews', User::class);
+
+        $ranks = $this->rankService->getAllRanks();
+
+        return Inertia::render('SystemAdministrator/Crews/Create', [
+            'ranks' => RankResource::collection($ranks),
+        ]);
     }
     
     /** 
@@ -78,14 +87,25 @@ class CrewController extends Controller
     {
         $this->authorize('system-administrator-create-crews', User::class);
 
-        DB::transaction(function() use ($request) {
-            Crew::query()->create($request->validated());
+        $crew = DB::transaction(function() use ($request) {
+            return Crew::query()->create($request->validated());
         });
+
+        return redirect()->route('system-administrator.crews.edit', $crew->id);
     }
 
     public function edit(Crew $crew)
     {
-        return Inertia::render('SystemAdministrator/Crews/Create');
+        $this->authorize('system-administrator-update-crews', User::class);
+
+        $ranks = $this->rankService->getAllRanks();
+
+        $crew->load('rank');
+
+        return Inertia::render('SystemAdministrator/Crews/Edit', [
+            'crew' => new CrewResource($crew),
+            'ranks' => RankResource::collection($ranks),
+        ]);
     }
     
     /**
@@ -98,6 +118,8 @@ class CrewController extends Controller
         DB::transaction(function() use ($crew, $request) {
             $crew->update($request->validated());
         });
+
+        return redirect()->route('system-administrator.crews.index');
     }
 
     /**
