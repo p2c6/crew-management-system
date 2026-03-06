@@ -47,8 +47,8 @@ const data = {
       icon: IconDatabase,
     },
     {
-      name: "Documents",
-      url: route('system-administrator.documents.index'),
+      name: "Document Types",
+      url: route('system-administrator.document-types.index'),
       icon: IconReport,
     },
     {

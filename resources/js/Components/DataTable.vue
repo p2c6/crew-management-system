@@ -139,13 +139,13 @@ function getNestedValue(obj:any, path:any):any {
               <DropdownMenuTrigger as-child>
                 <SidebarMenuButton
                   size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <IconDotsVertical class="ml-auto size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                class="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
                 :side-offset="4"  
                 align="end"
               >
@@ -165,7 +165,7 @@ function getNestedValue(obj:any, path:any):any {
                 >
                   <component
                     :is="action?.component?.name"
-                    :data="row.id"
+                    :data="row"
                   />
                 </DropdownMenuItem>
               </template>

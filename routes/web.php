@@ -5,6 +5,7 @@ use App\Http\Controllers\SystemAdministrator\Dashboard\DashboardController as Ad
 use App\Http\Controllers\Staff\Dashboard\DashboardController as StaffDashboardController;
 use App\Http\Controllers\SystemAdministrator\Crew\CrewController;
 use App\Http\Controllers\SystemAdministrator\Document\DocumentController;
+use App\Http\Controllers\SystemAdministrator\DocumentType\DocumentTypeController;
 use App\Http\Controllers\SystemAdministrator\Rank\RankController;
 use App\Http\Controllers\SystemAdministrator\Role\RoleController;
 use App\Http\Controllers\SystemAdministrator\User\UserController;
@@ -44,6 +45,17 @@ Route::middleware('auth')->group(function () {
             Route::post('/store', 'store')->name('store');
             Route::put('/{document}', 'update')->name('update');
             Route::delete('/{document}', 'destroy')->name('destroy');
+        });
+
+        Route::controller(DocumentTypeController::class)
+        ->prefix('/document-types')
+        ->name('document-types.')
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{documentType}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::put('/{documentType}', 'update')->name('update');
+            Route::delete('/{documentType}', 'destroy')->name('destroy');
         });
         
         Route::controller(RoleController::class)
