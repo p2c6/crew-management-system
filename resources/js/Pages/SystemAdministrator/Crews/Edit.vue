@@ -10,15 +10,31 @@ import { computed, ref } from 'vue'
 import Tabs from '@/Components/Tabs.vue'
 import DocumentList from './Partials/Document/DocumentList.vue'
 
-defineProps<{
-  crew: Crew
+import { router, usePage } from '@inertiajs/vue3'
+import { route } from 'ziggy-js'
+
+
+const page = usePage()
+
+const props = defineProps<{
+  crew: Crew,
+  documents: Object,
   ranks: Object,
+  activeTab: 'profile' | 'documents'
 }>()
 
-const activeTab = ref<'profile' | 'documents'>('profile')
+const activeTab = computed<'profile' | 'documents'>(() => {
+  return page.url.includes('/documents') ? 'documents' : 'profile'
+})
 
 const handleClickTab = (tab: 'profile' | 'documents') => {
-  activeTab.value = tab
+  if (tab === 'profile') {
+    router.get(route('system-administrator.crews.edit', props.crew.data.id))
+  }
+
+  if (tab === 'documents') {
+    router.get(route('system-administrator.crews.documents', props.crew.data.id))
+  }
 }
 
 </script>
@@ -33,14 +49,14 @@ const handleClickTab = (tab: 'profile' | 'documents') => {
       </div>
     </header>
 
-    <Tabs @clickTab="handleClickTab" />
+    <Tabs :activeTab="activeTab" @clickTab="handleClickTab" />
 
     <div class="flex flex-1 flex-col gap-4 p-4 pt-2">
       <div>
         <EditCrewForm v-if="activeTab === 'profile'" :ranks="ranks" :crew="crew.data" />
       </div>
       <div>
-        <DocumentList v-if="activeTab === 'documents'" :documents="crew.crewDocuments" />
+        <DocumentList v-if="activeTab === 'documents'" :documents="documents" />
       </div>
     </div>
     <Toaster />

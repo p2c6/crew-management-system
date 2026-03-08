@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-
 const emits = defineEmits<{
   (e: 'clickTab', tab: 'profile' | 'documents'): void
 }>()
 
-const current = ref('profile');
+const props = defineProps<{
+  activeTab: 'profile' | 'documents'
+}>()
 
 const handleTabClick = (tab: 'profile' | 'documents') => {
-    emits('clickTab', tab)
-    current.value =  tab
+  emits('clickTab', tab)
 }
 
 </script>
@@ -21,8 +20,10 @@ const handleTabClick = (tab: 'profile' | 'documents') => {
         <button
           @click="handleTabClick('profile')"
           :class="[
-            'flex items-center p-4 border-b-2 rounded-t-lg transition-colors duration-200',
-            current === 'profile' ? 'text-blue-600 border-blue-600' : 'text-gray-600 border-transparent hover:text-blue-600 hover:border-blue-600'
+            'flex items-center p-4 border-b-2 rounded-t-lg',
+            props.activeTab === 'profile'
+              ? 'text-blue-600 border-blue-600'
+              : 'text-gray-600 border-transparent hover:text-blue-600 hover:border-blue-600'
           ]"
         >
           Profile
@@ -32,8 +33,10 @@ const handleTabClick = (tab: 'profile' | 'documents') => {
         <button
           @click="handleTabClick('documents')"
           :class="[
-            'flex items-center p-4 border-b-2 rounded-t-lg transition-colors duration-200',
-            current === 'documents' ? 'text-blue-600 border-blue-600' : 'text-gray-600 border-transparent hover:text-blue-600 hover:border-blue-600'
+            'flex items-center p-4 border-b-2 rounded-t-lg',
+            props.activeTab === 'documents'
+              ? 'text-blue-600 border-blue-600'
+              : 'text-gray-600 border-transparent hover:text-blue-600 hover:border-blue-600'
           ]"
         >
           Documents
