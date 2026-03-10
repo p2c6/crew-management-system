@@ -9,6 +9,7 @@ use App\Http\Controllers\SystemAdministrator\DocumentType\DocumentTypeController
 use App\Http\Controllers\SystemAdministrator\Rank\RankController;
 use App\Http\Controllers\SystemAdministrator\Role\RoleController;
 use App\Http\Controllers\SystemAdministrator\User\UserController;
+use App\Http\Controllers\Upload\UploadController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,6 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::controller(UploadController::class)
+    ->group(function() {
+        Route::post('/upload', 'store');
+        Route::delete('/upload', 'revert');
+    });
 
     Route::prefix('/system-administrator')
     ->name('system-administrator.')
@@ -98,6 +105,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::get('/{crew}/edit', 'edit')->name('edit');
+            Route::name('documents.')
+            ->group(function() {
+                Route::get('/{crew}/edit/documents', 'documents')->name('index');
+                Route::post('documents/store', 'storeDocument')->name('store');
+            });
             Route::get('/{crew}', 'show')->name('show');
             Route::post('/store', 'store')->name('store');
             Route::put('/{crew}', 'update')->name('update');
