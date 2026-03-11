@@ -65,6 +65,7 @@ interface ColumnDef {
   accessorKey: string
   label: string,
   allowedActions: AllowedActions[]
+  render?: (value: any, row: any) => any 
 }
 
 interface PageLink {
@@ -132,7 +133,13 @@ function getNestedValue(obj:any, path:any):any {
             class="py-3 px-3 text-md font-medium"
           >
           <span v-if="column.accessorKey !== 'action'">
-            {{ getNestedValue(row, column.accessorKey) }}
+            <component
+              v-if="column.render"
+              :is="column.render(getNestedValue(row, column.accessorKey), row)"
+            />
+            <template v-else>
+              {{ getNestedValue(row, column.accessorKey) }}
+            </template>
           </span>
           <span v-show="column.accessorKey === 'action'">
             <DropdownMenu>
