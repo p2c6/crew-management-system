@@ -166,6 +166,7 @@ function getNestedValue(obj:any, path:any):any {
                   <component
                     :is="action?.component?.name"
                     :data="row"
+                    :resources="action?.component?.resources"
                   />
                 </DropdownMenuItem>
               </template>
