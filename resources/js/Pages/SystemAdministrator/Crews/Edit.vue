@@ -20,6 +20,7 @@ const props = defineProps<{
   crew: Crew,
   documents: Object,
   ranks: Object,
+  documentTypes: Object,
   activeTab: 'profile' | 'documents'
 }>()
 
@@ -33,9 +34,11 @@ const handleClickTab = (tab: 'profile' | 'documents') => {
   }
 
   if (tab === 'documents') {
-    router.get(route('system-administrator.crews.documents', props.crew.data.id))
+    router.get(route('system-administrator.crews.documents.index', props.crew.data.id))
   }
 }
+
+console.log('documentTypes from edit crew', props.documentTypes)
 
 </script>
 
@@ -56,7 +59,7 @@ const handleClickTab = (tab: 'profile' | 'documents') => {
         <EditCrewForm v-if="activeTab === 'profile'" :ranks="ranks" :crew="crew.data" />
       </div>
       <div>
-        <DocumentList v-if="activeTab === 'documents'" :documents="documents" />
+        <DocumentList v-if="activeTab === 'documents'" :documents="documents" :documentTypes="documentTypes" :crewId="props.crew.data.id" />
       </div>
     </div>
     <Toaster />

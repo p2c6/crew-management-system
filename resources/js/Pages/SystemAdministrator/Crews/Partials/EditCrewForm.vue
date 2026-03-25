@@ -31,6 +31,7 @@ import Badge from '@/Components/ui/badge/Badge.vue'
 const props = defineProps<{
   crew: Crew
   ranks: Object
+  documentTypes: Object
 }>()
 
 const form = useForm<EditCrewForm>({

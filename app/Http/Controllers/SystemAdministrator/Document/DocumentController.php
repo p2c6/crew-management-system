@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\SystemAdministrator\Document;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDocumentRequest;
+use App\Http\Requests\Document\StoreDocumentRequest;
 use App\Http\Resources\Document\DocumentCollection;
 use App\Http\Resources\Document\DocumentResource;
 use App\Models\Document;

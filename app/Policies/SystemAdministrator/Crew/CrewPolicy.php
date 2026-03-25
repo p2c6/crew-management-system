@@ -36,4 +36,33 @@ class CrewPolicy
         return $user->isAdmin() ? Response::allow() : 
             Response::deny('You are not allowed to access this resource', 403);
     }
+    public function viewAnyDocument(User $user)
+    {
+        return $user->isAdmin() ? Response::allow() : 
+            Response::deny('You are not allowed to access this resource', 403);
+    }
+
+    public function viewDocument(User $user)
+    {
+        return $user->isAdmin() ? Response::allow() : 
+            Response::deny('You are not allowed to access this resource', 403);
+    }
+
+    public function createDocument(User $user)
+    {
+        return $user->isAdmin() ? Response::allow() : 
+            Response::deny('You are not allowed to access this resource', 403);
+    }
+
+    public function updateDocument(User $user)
+    {
+        return $user->isAdmin() ? Response::allow() : 
+            Response::deny('You are not allowed to access this resource', 403);
+    }
+
+    public function deleteDocument(User $user)
+    {
+        return $user->isAdmin() ? Response::allow() : 
+            Response::deny('You are not allowed to access this resource', 403);
+    }
 }
