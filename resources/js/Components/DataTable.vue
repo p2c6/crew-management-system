@@ -65,6 +65,7 @@ interface ColumnDef {
   accessorKey: string
   label: string,
   allowedActions: AllowedActions[]
+  render?: (value: any, row: any) => any 
 }
 
 interface PageLink {
@@ -132,20 +133,26 @@ function getNestedValue(obj:any, path:any):any {
             class="py-3 px-3 text-md font-medium"
           >
           <span v-if="column.accessorKey !== 'action'">
-            {{ getNestedValue(row, column.accessorKey) }}
+            <component
+              v-if="column.render"
+              :is="column.render(getNestedValue(row, column.accessorKey), row)"
+            />
+            <template v-else>
+              {{ getNestedValue(row, column.accessorKey) }}
+            </template>
           </span>
           <span v-show="column.accessorKey === 'action'">
             <DropdownMenu>
               <DropdownMenuTrigger as-child>
                 <SidebarMenuButton
                   size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <IconDotsVertical class="ml-auto size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                class="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
                 :side-offset="4"  
                 align="end"
               >
@@ -165,7 +172,8 @@ function getNestedValue(obj:any, path:any):any {
                 >
                   <component
                     :is="action?.component?.name"
-                    :data="row.id"
+                    :data="row"
+                    :resources="action?.component?.resources"
                   />
                 </DropdownMenuItem>
               </template>

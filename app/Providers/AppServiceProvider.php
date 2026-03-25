@@ -6,6 +6,7 @@ use App\Policies\SystemAdministrator\Dashboard\DashboardPolicy as SystemAdminist
 use App\Policies\Staff\Dashboard\DashboardPolicy as StaffPolicy;
 use App\Policies\SystemAdministrator\Crew\CrewPolicy;
 use App\Policies\SystemAdministrator\Document\DocumentPolicy;
+use App\Policies\SystemAdministrator\DocumentType\DocumentTypePolicy;
 use App\Policies\SystemAdministrator\Rank\RankPolicy;
 use App\Policies\SystemAdministrator\Role\RolePolicy;
 use App\Policies\SystemAdministrator\User\UserPolicy;
@@ -48,6 +49,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('system-administrator-create-documents', [DocumentPolicy::class, 'create']);
         Gate::define('system-administrator-update-documents', [DocumentPolicy::class, 'update']);
         Gate::define('system-administrator-delete-documents', [DocumentPolicy::class, 'delete']);
+        //DOCUMENT
+        Gate::define('system-administrator-view-any-document-types', [DocumentTypePolicy::class, 'viewAny']);
+        Gate::define('system-administrator-view-document-types', [DocumentTypePolicy::class, 'view']);
+        Gate::define('system-administrator-create-document-types', [DocumentTypePolicy::class, 'create']);
+        Gate::define('system-administrator-update-document-types', [DocumentTypePolicy::class, 'update']);
+        Gate::define('system-administrator-delete-document-types', [DocumentTypePolicy::class, 'delete']);
         //ROLE
         Gate::define('system-administrator-view-any-roles', [RolePolicy::class, 'viewAny']);
         Gate::define('system-administrator-view-roles', [RolePolicy::class, 'view']);
@@ -66,6 +73,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('system-administrator-create-crews', [CrewPolicy::class, 'create']);
         Gate::define('system-administrator-update-crews', [CrewPolicy::class, 'update']);
         Gate::define('system-administrator-delete-crews', [CrewPolicy::class, 'delete']);
+        Gate::define('system-administrator-view-any-crew-documents', [CrewPolicy::class, 'viewAnyDocument']);
+        Gate::define('system-administrator-view-crew-documents', [CrewPolicy::class, 'viewDocument']);
+        Gate::define('system-administrator-create-crew-documents', [CrewPolicy::class, 'createDocument']);
+        Gate::define('system-administrator-update-crew-documents', [CrewPolicy::class, 'updateDocument']);
+        Gate::define('system-administrator-delete-crew-documents', [CrewPolicy::class, 'deleteDocument']);
         //STAFF DASHBOARD
         Gate::define('staff-view-any-dashboard', [StaffPolicy::class, 'viewAny']);
     }

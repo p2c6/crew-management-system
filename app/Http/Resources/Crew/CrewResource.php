@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Crew;
 
-use App\Http\Resources\DocumentResource;
+use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\Rank\RankResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,7 +19,7 @@ class CrewResource extends JsonResource
         return [
             'id' => $this->id,
             'rank' => $this->whenLoaded('rank', fn() => new RankResource($this->rank)),
-            'documents' => $this->whenLoaded('documents', fn() => new DocumentResource($this->documents)),
+            'documents' => $this->whenLoaded('documents', fn() =>  DocumentResource::collection($this->documents)),
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,

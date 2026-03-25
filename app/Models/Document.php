@@ -12,7 +12,16 @@ class Document extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'crew_id',
+        'document_type_id',
+        'file_name',
+        'file_path',
+        'code',
+        'issued_date',
+        'expiry_date',
+        'user_id',
+    ];
 
     public function crew(): HasMany
     {

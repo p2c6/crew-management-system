@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Crew;
 use App\Models\DocumentType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,15 +21,19 @@ class DocumentFactory extends Factory
      */
     public function definition(): array
     {
+        $fileName = fake()->uuid() . '.pdf';
+        $issuedDate = fake()->date();
+        $expiryDate = Carbon::parse($issuedDate)->addDays(30)->format('Y-m-d');
+
         return [
             'crew_id' => Crew::inRandomOrder()->value('id'),
             'document_type_id' => DocumentType::inRandomOrder()->value('id'),
             'user_id' => User::inRandomOrder()->value('id'),
-            'file_name' => fake()->randomLetter(),
-            'file_path' => fake()->randomLetter(),
-            'code' =>  Str::upper(fake()->bothify('??')),
-            'issued_date' => fake()->date(),
-            'expiry_date' => fake()->date(),
+            'file_name' =>  $fileName,
+            'file_path' => 'documents/' . $fileName,
+            'code' =>  Str::upper(fake()->bothify('???')),
+            'issued_date' => $issuedDate,
+            'expiry_date' => $expiryDate,
         ];
     }
 }
