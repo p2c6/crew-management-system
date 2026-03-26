@@ -88,7 +88,7 @@ describe('Document Module', function () {
             ->assertRedirectBack();
 
         Storage::disk('private')->assertExists($this->fakeData['file_path']);
-        Storage::disk('local')->assertMissing('tmp/' . $this->fakeData['file_name']); 
+        Storage::disk('local')->assertMissing('tmp/' . $this->fakeData['file_name']);
 
         $this->assertDatabaseHas('documents', [
             'crew_id'     => $this->fakeData['crew_id'],
@@ -220,7 +220,17 @@ describe('Document Module', function () {
             ->assertStatus(403)
             ->assertSeeHtml('You are not allowed to access this resource');
 
-        $this->assertDatabaseHas('documents', $document->toArray());
+        $this->assertDatabaseHas('documents', $document->only([
+            'id',
+            'crew_id',
+            'document_type_id',
+            'user_id',
+            'file_name',
+            'file_path',
+            'code',
+            'issued_date',
+            'expiry_date',
+        ]));
     });
 
     test('admin can view crew documents on crew documents page on system administrator layout', function () {
