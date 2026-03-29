@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Separator from '@/Components/ui/separator/Separator.vue'
 import { SidebarTrigger } from '@/Components/ui/sidebar'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
@@ -54,13 +54,19 @@ const columns = [
     allowedActions: [
       {
         icon: IconPencil,
+        type: 'component',
         label: 'Edit',
-        component: EditRankForm
+        component: {
+          name: EditRankForm,
+        }
       },
       {
         icon: IconPencil,
         label: 'Delete',
-        component: DeleteRankDialog
+        type: 'component',
+        component: {
+          name: DeleteRankDialog,
+        }
       },
     ]
   }
