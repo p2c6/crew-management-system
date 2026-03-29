@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/Components/ui/dialog'
+import { DeleteRoleForm } from '@/types/Role';
 import { useForm } from '@inertiajs/vue3';
 import { IconTrash } from "@tabler/icons-vue"
 import { ref } from 'vue';
@@ -26,7 +27,7 @@ const handleFormSuccess = () => {
   isOpen.value = false; 
 };
 
-const form = useForm({
+const form = useForm<DeleteRoleForm>({
   id: props.data
 });
 
@@ -49,9 +50,11 @@ const deleteRole = () => {
 <template>
   <Dialog v-model:open="isOpen">
     <DialogTrigger as-child>
-      <div class="flex items-center gap-2 cursor-pointer">
-        <IconTrash class="size-4" />
-        Delete
+      <div className="flex items-center py-2 px-1 rounded-md w-full text-sm hover:bg-blue-100 hover:text-blue-900 cursor-pointer">
+        <IconTrash class="h-4 w-4" />
+        <p class="ml-2">
+          Delete
+        </p>
       </div>
     </DialogTrigger>
 
