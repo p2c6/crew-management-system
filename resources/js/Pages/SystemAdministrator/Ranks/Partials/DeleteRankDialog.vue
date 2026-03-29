@@ -50,9 +50,11 @@ const deleteRank = () => {
 <template>
   <Dialog v-model:open="isOpen">
     <DialogTrigger as-child>
-      <div class="flex items-center gap-2 cursor-pointer">
-        <IconTrash class="size-4" />
-        Delete
+      <div className="flex items-center py-2 px-1 rounded-md w-full text-sm hover:bg-blue-100 hover:text-blue-900 cursor-pointer">
+        <IconTrash class="h-4 w-4" />
+        <p class="ml-2">
+          Delete
+        </p>
       </div>
     </DialogTrigger>
 
