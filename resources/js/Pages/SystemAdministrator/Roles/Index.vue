@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Separator from '@/Components/ui/separator/Separator.vue'
 import { SidebarTrigger } from '@/Components/ui/sidebar'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
@@ -28,6 +28,7 @@ import DeleteRoleDialog from './Partials/DeleteRoleDialog.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import InputError from '@/Components/InputError.vue'
+import { StoreRoleForm } from '@/types/Role'
 const props = defineProps({
   roles: Object,
   filters: Object,
@@ -50,12 +51,18 @@ const columns = [
       {
         icon: IconPencil,
         label: 'Edit',
-        component: EditRoleForm
+        type: 'component',
+        component: {
+          name: EditRoleForm
+        }
       },
       {
         icon: IconPencil,
         label: 'Delete',
-        component: DeleteRoleDialog
+        type: 'component',
+        component: {
+          name: DeleteRoleDialog
+        }
       },
     ]
   }
@@ -67,7 +74,7 @@ const handleFormSuccess = () => {
   isOpen.value = false; 
 };
 
-const form = useForm({
+const form = useForm<StoreRoleForm>({
   name: '',
   slug: '',
 });

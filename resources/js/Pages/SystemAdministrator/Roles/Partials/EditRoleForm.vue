@@ -13,6 +13,7 @@ import {
 } from '@/Components/ui/dialog'
 import { Input } from '@/Components/ui/input'
 import { Label } from '@/Components/ui/label'
+import { UpdateRoleForm } from '@/types/Role'
 import { useForm } from '@inertiajs/vue3'
 import { IconPencil } from "@tabler/icons-vue"
 import { onMounted, ref } from 'vue'
@@ -34,13 +35,7 @@ const handleFormSuccess = () => {
   isOpen.value = false; 
 };
 
-interface RoleForm {
-  id: number,
-  name: string,
-  slug: string
-}
-
-const form = useForm<RoleForm>({
+const form = useForm<UpdateRoleForm>({
   id: props.data.id,
   name: props.data.name,
   slug: props.data.slug,
@@ -67,9 +62,11 @@ const updateDocument = () => {
 <template>
   <Dialog v-model:open="isOpen">
     <DialogTrigger as-child>
-      <div class="flex items-center gap-2 cursor-pointer">
+      <div className="flex items-center py-2 px-1 rounded-md w-full text-sm hover:bg-blue-100 hover:text-blue-900 cursor-pointer">
         <IconPencil class="size-4" />
-        Edit
+        <p class="ml-2">
+          Edit
+        </p>
       </div>
     </DialogTrigger>
 

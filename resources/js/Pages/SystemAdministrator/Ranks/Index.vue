@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Separator from '@/Components/ui/separator/Separator.vue'
 import { SidebarTrigger } from '@/Components/ui/sidebar'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
@@ -28,6 +28,7 @@ import DeleteRankDialog from './Partials/DeleteRankDialog.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import InputError from '@/Components/InputError.vue'
+import { StoreRankForm } from '@/types/Rank'
 const props = defineProps({
   ranks: Object,
   filters: Object,
@@ -53,13 +54,19 @@ const columns = [
     allowedActions: [
       {
         icon: IconPencil,
+        type: 'component',
         label: 'Edit',
-        component: EditRankForm
+        component: {
+          name: EditRankForm,
+        }
       },
       {
         icon: IconPencil,
         label: 'Delete',
-        component: DeleteRankDialog
+        type: 'component',
+        component: {
+          name: DeleteRankDialog,
+        }
       },
     ]
   }
@@ -71,7 +78,7 @@ const handleFormSuccess = () => {
   isOpen.value = false; 
 };
 
-const form = useForm({
+const form = useForm<StoreRankForm>({
   code: '',
   short_name: '',
   alias: '',

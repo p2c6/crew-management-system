@@ -59,6 +59,7 @@ const columns = [
       {
         icon: IconPencil,
         label: 'Edit',
+        type: 'component',
         component: {
           name: EditUserForm,
           resources: {
@@ -69,6 +70,7 @@ const columns = [
       {
         icon: IconPencil,
         label: 'Delete',
+        type: 'component',
         component: {
           name: DeleteUserDialog,
         }

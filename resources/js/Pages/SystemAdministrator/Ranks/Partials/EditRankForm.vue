@@ -13,6 +13,7 @@ import {
 } from '@/Components/ui/dialog'
 import { Input } from '@/Components/ui/input'
 import { Label } from '@/Components/ui/label'
+import { UpdateRankForm } from '@/types/Rank'
 import { useForm } from '@inertiajs/vue3'
 import { IconPencil } from "@tabler/icons-vue"
 import { onMounted, ref } from 'vue'
@@ -35,14 +36,7 @@ const handleFormSuccess = () => {
   isOpen.value = false; 
 };
 
-interface RankForm {
-  id: number,
-  code: string,
-  short_name: string
-  alias: string
-}
-
-const form = useForm<RankForm>({
+const form = useForm<UpdateRankForm>({
   id: props.data.id,
   code: props.data.code,
   short_name: props.data.short_name,
@@ -70,9 +64,11 @@ const updateRank = () => {
 <template>
   <Dialog v-model:open="isOpen">
     <DialogTrigger as-child>
-      <div class="flex items-center gap-2 cursor-pointer">
+      <div className="flex items-center py-2 px-1 rounded-md w-full text-sm hover:bg-blue-100 hover:text-blue-900 cursor-pointer">
         <IconPencil class="size-4" />
-        Edit
+        <p class="ml-2">
+          Edit
+        </p>
       </div>
     </DialogTrigger>
 
