@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/Components/ui/dialog'
+import { DeleteRankForm } from '@/types/Rank';
 import { useForm } from '@inertiajs/vue3';
 import { IconTrash } from "@tabler/icons-vue"
 import { ref } from 'vue';
@@ -26,7 +27,7 @@ const handleFormSuccess = () => {
   isOpen.value = false; 
 };
 
-const form = useForm({
+const form = useForm<DeleteRankForm>({
   id: props.data
 });
 
