@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             CrewSeeder::class,
             DocumentTypeSeeder::class,
             DocumentSeeder::class,
+            EntitySeeder::class,
+            PermissionSeeder::class,
+            AccessModuleSeeder::class,
         ]);
     }
 }

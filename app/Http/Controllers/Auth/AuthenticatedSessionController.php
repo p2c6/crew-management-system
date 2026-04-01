@@ -36,8 +36,8 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(
             match($request->user()->role_id) {
-                UserRole::SystemAdministrator->id() => route('system-administrator.dashboard', absolute: false),
-                UserRole::Staff->id() => route('staff.dashboard', absolute: false),
+                UserRole::SystemAdministrator->id() => route('system-administrator.dashboard.index'),
+                UserRole::Staff->id() => route('staff.dashboard.index'),
             }
         );
     }

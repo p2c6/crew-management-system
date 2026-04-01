@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Staff\Crew\CrewController as StaffCrewController;
 use App\Http\Controllers\SystemAdministrator\Dashboard\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Staff\Dashboard\DashboardController as StaffDashboardController;
 use App\Http\Controllers\SystemAdministrator\Crew\CrewController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\SystemAdministrator\Rank\RankController;
 use App\Http\Controllers\SystemAdministrator\Role\RoleController;
 use App\Http\Controllers\SystemAdministrator\User\UserController;
 use App\Http\Controllers\Upload\UploadController;
+use App\Http\Resources\User\UserResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,10 +24,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,8 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/system-administrator')
         ->name('system-administrator.')
         ->group(function () {
-            Route::get('/', fn() =>  redirect()->route('system-administrator.dashboard'))->name('system-administrator.root');
-            Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+            Route::get('/', fn() =>  redirect()->route('system-administrator.dashboard'))->name('root');
+            Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
 
             Route::controller(DocumentController::class)
                 ->prefix('/documents')
@@ -125,7 +124,14 @@ Route::middleware('auth')->group(function () {
         ->name('staff.')
         ->group(function () {
             Route::get('/', fn() =>  redirect()->route('staff.dashboard'))->name('index');
-            Route::get('/dashboard', 'index')->name('dashboard');
+            Route::get('/dashboard', 'index')->name('dashboard.index');
+
+            Route::controller(StaffCrewController::class)
+                ->prefix('/crews')
+                ->name('crews.')
+                ->group(function () {
+                    Route::get('/', 'index')->name('index');
+                });
         });
 });
 

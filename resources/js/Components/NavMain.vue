@@ -11,7 +11,7 @@ import {
 import { Link } from "@inertiajs/vue3"
 
 interface NavItem {
-  title: string
+  label: string
   url: string
   icon?: Component
 }
@@ -25,11 +25,11 @@ defineProps<{
   <SidebarGroup>
     <SidebarGroupContent class="flex flex-col gap-2">
       <SidebarMenu>
-        <SidebarMenuItem v-for="item in items" :key="item.title">
+        <SidebarMenuItem v-for="item in items" :key="item.label">
           <Link :href="item.url">
-          <SidebarMenuButton :tooltip="item.title">
+          <SidebarMenuButton :tooltip="item.label">
               <component :is="item.icon" v-if="item.icon" />
-              <span>{{ item.title }}</span>
+              <span>{{ item.label }}</span>
             </SidebarMenuButton>
           </Link>
         </SidebarMenuItem>
