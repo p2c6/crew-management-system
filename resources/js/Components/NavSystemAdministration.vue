@@ -10,7 +10,7 @@ import {
 } from "@/Components/ui/sidebar"
 
 interface Document {
-  name: string
+  label: string
   url: string
   icon?: Component
 }
@@ -24,11 +24,11 @@ defineProps<{
   <SidebarGroup class="group-data-[collapsible=icon]:hidden">
     <SidebarGroupLabel>System / Administration</SidebarGroupLabel>
     <SidebarMenu>
-      <SidebarMenuItem v-for="item in items" :key="item.name">
+      <SidebarMenuItem v-for="item in items" :key="item.label">
         <SidebarMenuButton as-child>
           <Link :href="item.url">
             <component :is="item.icon" />
-            <span>{{ item.name }}</span>
+            <span>{{ item.label }}</span>
           </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>

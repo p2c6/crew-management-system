@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { route } from "ziggy-js"
 import {
+  IconClipboardTypography,
   IconDashboard,
   IconDatabase,
   IconInnerShadowTop,
+  IconJewishStar,
   IconListDetails,
   IconReport,
+  IconUserCog,
+  IconUserHexagon,
   IconUsers,
+  IconUsersGroup,
 } from "@tabler/icons-vue"
 
 import NavMain from "@/Components/NavMain.vue"
@@ -21,47 +26,66 @@ import {
   SidebarMenuItem,
 } from "@/Components/ui/sidebar"
 import NavSystemAdministration from "./NavSystemAdministration.vue"
+import { usePage } from "@inertiajs/vue3";
+import { computed } from "vue"
+const page = usePage();
+
+const iconMap: Record<string, any> = {
+  dashboard: IconDashboard,
+  crews: IconUserHexagon,
+  ranks: IconJewishStar,
+  documentTypes: IconClipboardTypography,
+  roles: IconUserCog,
+  users: IconUsersGroup,
+};
+
+const pluck = (resource: any[], key: string) => {
+  return resource.map(element => element[key]);
+}
+
+const appendUrlAndIcon = (entity: any[]) => {
+  return entity.map(element => {
+        const dd = {
+          ...element,
+          url: route(`${auth.value.role.slug.replace("_", "-")}.${element.label.toLowerCase().replace(" ", "-")}.index`),
+          icon: iconMap[element.icon] || null,
+        }
+
+        return dd
+  });
+}
+
+const auth = computed(() => page.props.auth.user);
+
+const main = computed(() => {
+  const accessModules = page.props.auth.user.accessModules;
+
+  const entity = pluck(accessModules, 'entity')
+  const filteredEntity = entity.filter(element => element.is_main == 1)
+  const withUrl = appendUrlAndIcon(filteredEntity)
+
+  return withUrl;
+});
+
+const system = computed(() => {
+  const accessModules = page.props.auth.user.accessModules;
+
+  const entity = pluck(accessModules, 'entity')
+  const filteredEntity = entity.filter(element => element.is_main == 0)
+  const withUrl = appendUrlAndIcon(filteredEntity)
+
+  return withUrl;
+});
+
 
 const data = {
   user: {
-    name: "shadcn",
+    name: "Administrator",
     email: "m@example.com",
     avatar: "https://ui-avatars.com/api/?name=Admin",
   },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: IconDashboard,
-    },
-    {
-      title: "Crews",
-      url: route('system-administrator.crews.index'),
-      icon: IconListDetails,
-    },
-  ],
-  system_administration: [
-    {
-      name: "Ranks",
-      url: route('system-administrator.ranks.index'),
-      icon: IconDatabase,
-    },
-    {
-      name: "Document Types",
-      url: route('system-administrator.document-types.index'),
-      icon: IconReport,
-    },
-    {
-      name: "Roles",
-      url: route('system-administrator.roles.index'),
-      icon: IconReport,
-    },
-    {
-      name: "Users",
-      url: route('system-administrator.users.index'),
-      icon: IconUsers,
-    },
-  ],
+  main: main.value,
+  system: system.value
 }
 </script>
 
@@ -83,8 +107,8 @@ const data = {
       </SidebarMenu>
     </SidebarHeader>
     <SidebarContent>
-      <NavMain :items="data.navMain" />
-      <NavSystemAdministration :items="data.system_administration" />
+      <NavMain :items="data.main" />
+      <NavSystemAdministration :items="data.system" v-show="data.system.length > 0" />
     </SidebarContent>
     <SidebarFooter>
       <NavUser :user="data.user" />

@@ -33,12 +33,19 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'csrf_token' => csrf_token(),
             'auth' => [
-                'user' => $request->user(),
+                'user' => fn() => $request->user()
+                    ? $request->user()->load('role', 'accessModules.entity')->only([
+                        'id',
+                        'email',
+                        'role',
+                        'accessModules',
+                    ])
+                    : null,
             ],
             'flash' => [
-                'success' => fn () => $request->session()->get('success'),
-                'error'   => fn () => $request->session()->get('error'),
-                'warning' => fn () => $request->session()->get('warning'),
+                'success' => fn() => $request->session()->get('success'),
+                'error'   => fn() => $request->session()->get('error'),
+                'warning' => fn() => $request->session()->get('warning'),
             ],
         ];
     }

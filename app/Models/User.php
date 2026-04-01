@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function accessModules()
+    {
+        return $this->hasMany(AccessModule::class);
+    }
 }
