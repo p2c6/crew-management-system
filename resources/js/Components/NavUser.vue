@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/Components/ui/sidebar"
+import { router } from '@inertiajs/vue3'
 
 interface User {
   name: string
@@ -37,6 +38,10 @@ defineProps<{
 }>()
 
 const { isMobile } = useSidebar()
+
+const logout = () => {
+  router.post(route('logout'))
+}
 </script>
 
 <template>
@@ -93,7 +98,7 @@ const { isMobile } = useSidebar()
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem  @click="logout">
             <IconLogout />
             Log out
           </DropdownMenuItem>
