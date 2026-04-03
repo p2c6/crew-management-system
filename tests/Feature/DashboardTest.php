@@ -28,7 +28,7 @@ describe('Dashboard Module', function() {
 
     test('staff can access dashboard page on staff layout', function () {
         actingAs($this->staff)
-        ->get(route('staff.dashboard'))
+        ->get(route('staff.dashboard.index'))
         ->assertStatus(200)
         ->assertInertia(fn(Assert $page) =>
             $page->component('Staff/Dashboard/Index')
@@ -37,7 +37,7 @@ describe('Dashboard Module', function() {
 
     test('admin cannot access dashboard page on staff layout', function () {
         actingAs($this->admin)
-        ->get(route('staff.dashboard'))
+        ->get(route('staff.dashboard.index'))
         ->assertStatus(403)
         ->assertSee('You are not allowed to access this resource');
     });
@@ -45,7 +45,7 @@ describe('Dashboard Module', function() {
 
     test('admin can access dashboard page on system administrator layout', function () {
         actingAs($this->admin)
-        ->get(route('system-administrator.dashboard'))
+        ->get(route('system-administrator.dashboard.index'))
         ->assertStatus(200)
         ->assertInertia(fn(Assert $page) =>
             $page->component('SystemAdministrator/Dashboard/Index')
@@ -54,7 +54,7 @@ describe('Dashboard Module', function() {
 
     test('staff cannot access dashboard page on system administrator layout', function () {
         actingAs($this->staff)
-        ->get(route('system-administrator.dashboard'))
+        ->get(route('system-administrator.dashboard.index'))
         ->assertStatus(403)
         ->assertSee('You are not allowed to access this resource');
     });
