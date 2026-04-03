@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,6 +37,11 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $route = match ($request->user()->role_id) {
+            UserRole::SystemAdministrator->id() => route('system-administrator.dashboard.index', absolute: false) . '?verified=1',
+            UserRole::Staff->id() => route('staff.dashboard.index', absolute: false) . '?verified=1',
+        };
+
+        return redirect()->intended($route);
     }
 }
