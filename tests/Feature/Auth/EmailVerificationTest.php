@@ -4,8 +4,11 @@ use App\Enums\UserRole;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
+
+uses(RefreshDatabase::class);
 
 test('email verification screen can be rendered', function () {
     $user = User::factory()->unverified()->create();
@@ -24,10 +27,11 @@ test('email can be verified', function () {
         'role_id' => $role->id
     ]);
 
-    $route = match ($user->role_id) {
-        UserRole::SystemAdministrator->id() => route('system-administrator.dashboard.index', absolute: false) . '?verified=1',
-        UserRole::Staff->id() => route('staff.dashboard.index', absolute: false) . '?verified=1',
-    };
+    $route = route('system-administrator.dashboard.index', absolute: false) . '?verified=1';
+
+    if ($user->role_id === UserRole::Staff->id()) {
+        $route =  route('staff.dashboard.index', absolute: false) . '?verified=1';
+    }
 
     Event::fake();
 

@@ -15,10 +15,11 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        $route = match($request->user()->role_id) {
-            UserRole::SystemAdministrator->id() => route('system-administrator.dashboard.index', absolute: false) . '?verified=1',
-            UserRole::Staff->id() => route('staff.dashboard.index', absolute: false) . '?verified=1',
-        };
+        $route =  route('system-administrator.dashboard.index', absolute: false) . '?verified=1';
+
+        if ( $request->user()->role_id === UserRole::Staff->id() ) {
+            $route = route('staff.dashboard.index', absolute: false) . '?verified=1';
+        }
 
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended($route);

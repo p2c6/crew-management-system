@@ -37,10 +37,11 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        $route = match ($request->user()->role_id) {
-            UserRole::SystemAdministrator->id() => route('system-administrator.dashboard.index', absolute: false) . '?verified=1',
-            UserRole::Staff->id() => route('staff.dashboard.index', absolute: false) . '?verified=1',
-        };
+        $route =  route('system-administrator.dashboard.index', absolute: false) . '?verified=1';
+
+        if ( $request->user()->role_id === UserRole::Staff->id() ) {
+            $route = route('staff.dashboard.index', absolute: false) . '?verified=1';
+        }
 
         return redirect()->intended($route);
     }
