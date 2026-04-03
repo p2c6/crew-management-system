@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
@@ -14,7 +16,18 @@ test('email verification screen can be rendered', function () {
 });
 
 test('email can be verified', function () {
-    $user = User::factory()->unverified()->create();
+    $role = Role::create([
+        'name' => UserRole::SystemAdministrator->label(),
+        'slug' => UserRole::SystemAdministrator->value,
+    ]);
+    $user = User::factory()->unverified()->create([
+        'role_id' => $role->id
+    ]);
+
+    $route = match ($user->role_id) {
+        UserRole::SystemAdministrator->id() => route('system-administrator.dashboard.index', absolute: false) . '?verified=1',
+        UserRole::Staff->id() => route('staff.dashboard.index', absolute: false) . '?verified=1',
+    };
 
     Event::fake();
 
@@ -28,7 +41,7 @@ test('email can be verified', function () {
 
     Event::assertDispatched(Verified::class);
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
-    $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+    $response->assertRedirect($route);
 });
 
 test('email is not verified with invalid hash', function () {
