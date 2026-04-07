@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Policies\Staff\Crew\CrewPolicy as StaffCrewPolicy;
 use App\Policies\SystemAdministrator\Dashboard\DashboardPolicy as SystemAdministratorPolicy;
 use App\Policies\Staff\Dashboard\DashboardPolicy as StaffPolicy;
 use App\Policies\SystemAdministrator\Crew\CrewPolicy;
@@ -80,5 +81,16 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('system-administrator-delete-crew-documents', [CrewPolicy::class, 'deleteDocument']);
         //STAFF DASHBOARD
         Gate::define('staff-view-any-dashboard', [StaffPolicy::class, 'viewAny']);
+        //CREW
+        Gate::define('staff-view-any-crews', [StaffCrewPolicy::class, 'viewAny']);
+        Gate::define('staff-view-crews', [StaffCrewPolicy::class, 'view']);
+        Gate::define('staff-create-crews', [StaffCrewPolicy::class, 'create']);
+        Gate::define('staff-update-crews', [StaffCrewPolicy::class, 'update']);
+        Gate::define('staff-delete-crews', [StaffCrewPolicy::class, 'delete']);
+        Gate::define('staff-view-any-crew-documents', [StaffCrewPolicy::class, 'viewAnyDocument']);
+        Gate::define('staff-view-crew-documents', [StaffCrewPolicy::class, 'viewDocument']);
+        Gate::define('staff-create-crew-documents', [StaffCrewPolicy::class, 'createDocument']);
+        Gate::define('staff-update-crew-documents', [StaffCrewPolicy::class, 'updateDocument']);
+        Gate::define('staff-delete-crew-documents', [StaffCrewPolicy::class, 'deleteDocument']);
     }
 }

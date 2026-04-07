@@ -67,7 +67,7 @@ const updateCrew = () => {
     form.transform((data) => ({
     ...data,
     birth_date: data.birth_date ? formatDateValue(data.birth_date) : null,
-  })).put(route('system-administrator.crews.update', props.crew.id), {
+  })).put(route('staff.crews.update', props.crew.id), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset()
