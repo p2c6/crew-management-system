@@ -32,7 +32,7 @@ const form = useForm<DeleteCrewForm>({
 });
 
 const deleteCrew = () => {
-  form.delete(route('system-administrator.crews.destroy', form.id), {
+  form.delete(route('staff.crews.destroy', form.id), {
     preserveScroll: true,
     onSuccess: () => {
       handleFormSuccess()

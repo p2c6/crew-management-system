@@ -131,6 +131,20 @@ Route::middleware('auth')->group(function () {
                 ->name('crews.')
                 ->group(function () {
                     Route::get('/', 'index')->name('index');
+                    Route::get('/create', 'create')->name('create');
+                    Route::get('/{crew}/edit', 'edit')->name('edit');
+                    Route::name('documents.')
+                        ->group(function () {
+                            Route::get('/{crew}/edit/documents', 'documents')->name('index');
+                            Route::post('documents/store', 'storeDocument')->name('store');
+                            Route::get('/documents/{document}/view', 'view')->name('view');
+                            Route::put('/documents/{document}/update', 'updateDocument')->name('update');
+                            Route::delete('/documents/{document}/destory', 'destroyDocument')->name('destroy');
+                        });
+                    Route::get('/{crew}', 'show')->name('show');
+                    Route::post('/store', 'store')->name('store');
+                    Route::put('/{crew}', 'update')->name('update');
+                    Route::delete('/{crew}', 'destroy')->name('destroy');
                 });
         });
 });

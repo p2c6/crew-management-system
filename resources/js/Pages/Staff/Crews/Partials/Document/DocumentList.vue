@@ -69,7 +69,7 @@ const columns = [
     label: 'File',
     render: (value: string, row: any) =>
       h('a', {
-        href: route('system-administrator.crews.documents.view', {
+        href: route('staff.crews.documents.view', {
           crew: row.crew_id,
           document: row.id
         }),
@@ -125,7 +125,7 @@ const createDocuments = () => {
     documents: data.documents.map((file: any) => file.serverId).filter(Boolean),
     issued_date: data.issued_date ? formatDateValue(data.issued_date) : null,
     expiry_date: data.expiry_date ? formatDateValue(data.expiry_date) : null,
-  })).post(route('system-administrator.crews.documents.store'), {
+  })).post(route('staff.crews.documents.store'), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset()
