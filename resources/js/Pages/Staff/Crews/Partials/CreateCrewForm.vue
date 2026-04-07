@@ -63,7 +63,7 @@ const createCrew = () => {
     form.transform((data) => ({
     ...data,
     birth_date: data.birth_date ? formatDateValue(data.birth_date) : null,
-  })).post(route('system-administrator.crews.store'), {
+  })).post(route('staff.crews.store'), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset()

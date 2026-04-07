@@ -64,7 +64,7 @@ const existingFileRemoved = ref(false)
 
 const existingFiles = props.data?.id
   ? [{
-    source: route('system-administrator.crews.documents.view', { document: props.data.id }),
+    source: route('staff.crews.documents.view', { document: props.data.id }),
     options: {
       type: 'local',
       file: {
@@ -102,7 +102,7 @@ const updateDocument = () => {
     remove_existing_document: existingFileRemoved.value && !fileWasChanged,
     issued_date: data.issued_date ? formatDateValue(data.issued_date) : null,
     expiry_date: data.expiry_date ? formatDateValue(data.expiry_date) : null,
-  })).put(route('system-administrator.crews.documents.update', props.data.id), {
+  })).put(route('staff.crews.documents.update', props.data.id), {
     preserveScroll: true,
     onSuccess: () => {
       form.reset()

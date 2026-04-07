@@ -32,7 +32,7 @@ const form = useForm<DeleteDocumentForm>({
 });
 
 const deleteDocument = () => {
-  form.delete(route('system-administrator.crews.documents.destroy', props.data.id), {
+  form.delete(route('staff.crews.documents.destroy', props.data.id), {
     preserveScroll: true,
     onSuccess: () => {
       handleFormSuccess()

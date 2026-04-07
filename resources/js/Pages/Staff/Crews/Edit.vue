@@ -30,11 +30,11 @@ const activeTab = computed<'profile' | 'documents'>(() => {
 
 const handleClickTab = (tab: 'profile' | 'documents') => {
   if (tab === 'profile') {
-    router.get(route('system-administrator.crews.edit', props.crew.data.id))
+    router.get(route('staff.crews.edit', props.crew.data.id))
   }
 
   if (tab === 'documents') {
-    router.get(route('system-administrator.crews.documents.index', props.crew.data.id))
+    router.get(route('staff.crews.documents.index', props.crew.data.id))
   }
 }
 
