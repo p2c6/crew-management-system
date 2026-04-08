@@ -18,6 +18,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'full_name' => $this->full_name,
             'email' => $this->email,
             'role' => $this->whenLoaded('role', fn() => new RoleResource($this->role)),
             'access_modules' => $this->whenLoaded('accessModules', fn() => AccessModuleResource::collection($this->accessModules)),

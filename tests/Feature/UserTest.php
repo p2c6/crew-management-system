@@ -30,6 +30,7 @@ describe('User Module', function(){
 
         $this->fakeData = [
             'email' => fake()->email(),
+            'full_name' => fake()->name(),
             'password' => fake()->password(),
             'role_id' => $role->id,
         ];
@@ -104,6 +105,7 @@ describe('User Module', function(){
         $updated = [
             'email' => fake()->email(),
             'password' => fake()->password(),
+            'full_name' => fake()->name(),
             'role_id' => $role->id,
         ];
 
@@ -113,10 +115,12 @@ describe('User Module', function(){
 
         $this->assertDatabaseMissing('users',[
             'email' => $this->fakeData['email'],
+            'full_name' => $this->fakeData['full_name'],
             'role_id' => $this->fakeData['role_id'],
         ]);
         $this->assertDatabaseHas('users', [
             'email' => $updated['email'],
+            'full_name' => $updated['full_name'],
             'role_id' => $updated['role_id'],
         ]);
     });
@@ -127,6 +131,7 @@ describe('User Module', function(){
 
         $updated = [
             'email' => fake()->email(),
+            'full_name' => fake()->name(),
             'password' => fake()->password(),
             'role_id' => $role->id,
         ];
