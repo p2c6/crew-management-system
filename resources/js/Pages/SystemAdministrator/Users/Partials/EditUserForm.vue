@@ -40,6 +40,7 @@ const handleFormSuccess = () => {
 
 const form = useForm<EditUserForm>({
   id: props.data.id,
+  full_name: props.data.full_name,
   role_id: props.data.role.id,
   email: props.data.email,
   password: props.data.password,
@@ -84,6 +85,14 @@ const updateUser = () => {
 
       <form @submit.prevent="updateUser">
         <div class="grid gap-4 mb-2">
+          <div class="grid gap-3">
+            <Label for="full-name">Full Name</Label>
+            <Input type="text" id="full-name" name="full_name" v-model="form.full_name" />
+            
+            <InputError
+                :message="form.errors.full_name"
+            />
+          </div>
           <div class="grid gap-3">
             <Label for="email">E-mail</Label>
             <Input type="email" id="email" name="name" v-model="form.email" />

@@ -44,6 +44,10 @@ const props = defineProps({
 
 const columns = [
   {
+    accessorKey: 'full_name',
+    label: 'Full Name',
+  },
+  {
     accessorKey: 'email',
     label: 'E-mail',
   },
@@ -87,6 +91,7 @@ const handleFormSuccess = () => {
 
 const form = useForm<StoreUserForm>({
   role_id: '',
+  full_name: '',
   email: '',
   password: '',
 });
@@ -137,6 +142,14 @@ const createUser = () => {
 
             <form @submit.prevent="createUser">
               <div class="grid gap-4 mb-2">
+                <div class="grid gap-3">
+                  <Label for="full-name">Full Name</Label>
+                  <Input type="text" id="full-name" name="full_name" v-model="form.full_name" />
+                  
+                <InputError
+                    :message="form.errors.full_name"
+                />
+                </div>
                 <div class="grid gap-3">
                   <Label for="email">E-mail</Label>
                   <Input type="email" id="email" name="name" v-model="form.email" />
