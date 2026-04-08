@@ -16,37 +16,37 @@ class EntitySeeder extends Seeder
     {
         $entities = [
             [
-                'title' => 'Dashboard',
+                'label' => 'Dashboard',
                 'icon' => 'dashboard',
                 'is_main' => true,
                 'created_at' => now(),
             ],
             [
-                'title' => 'Crews',
+                'label' => 'Crews',
                 'icon' => 'crews',
                 'is_main' => true,
                 'created_at' => now(),
             ],
             [
-                'title' => 'Ranks',
+                'label' => 'Ranks',
                 'icon' => 'ranks',
                 'is_main' => false,
                 'created_at' => now(),
             ],
             [
-                'title' => 'Document Types',
+                'label' => 'Document Types',
                 'icon' => 'documentTypes',
                 'is_main' => false,
                 'created_at' => now(),
             ],
             [
-                'title' => 'Roles',
+                'label' => 'Roles',
                 'icon' => 'roles',
                 'is_main' => false,
                 'created_at' => now(),
             ],
             [
-                'title' => 'Users',
+                'label' => 'Users',
                 'icon' => 'users',
                 'is_main' => false,
                 'created_at' => now(),

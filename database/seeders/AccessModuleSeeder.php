@@ -30,7 +30,7 @@ class AccessModuleSeeder extends Seeder
         AccessModule::query()->insert($adminDataEntites);
 
         //Staff
-        $staffEntities = Entity::query()->whereIn('title', ['Dashboard', 'Crews'])->get();
+        $staffEntities = Entity::query()->whereIn('label', ['Dashboard', 'Crews'])->get();
 
         $staff = User::query()
             ->whereHas('role', function ($q) {

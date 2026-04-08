@@ -17,12 +17,14 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'email' => 'admin@test.com',
+                'full_name' => 'Administrator',
                 'password' => bcrypt('password123'),
                 'role_id' => UserRole::SystemAdministrator->id(),
                 'created_at' => now(),
             ],
             [
                 'email' => 'staff@test.com',
+                'full_name' => 'Staff',
                 'password' => bcrypt('password123'),
                 'role_id' => UserRole::Staff->id(),
                 'created_at' => now(),
