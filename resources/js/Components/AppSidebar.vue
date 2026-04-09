@@ -77,11 +77,9 @@ const system = computed(() => {
   return withUrl;
 });
 
-
 const data = {
   user: {
-    name: "Administrator",
-    email: "m@example.com",
+    ...auth.value,
     avatar: "https://ui-avatars.com/api/?name=Admin",
   },
   main: main.value,
