@@ -20,7 +20,7 @@ class RankFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => Str::upper(fake()->bothify('??')),
+            'code' => Str::upper(fake()->bothify('???')),
             'short_name' => fake()->jobTitle(),
             'alias' =>  fake()->jobTitle(),
         ];
