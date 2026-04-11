@@ -1,18 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Staff\Crew\CrewController as StaffCrewController;
 use App\Http\Controllers\SystemAdministrator\Dashboard\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Staff\Dashboard\DashboardController as StaffDashboardController;
 use App\Http\Controllers\SystemAdministrator\Crew\CrewController;
 use App\Http\Controllers\SystemAdministrator\Document\DocumentController;
 use App\Http\Controllers\SystemAdministrator\DocumentType\DocumentTypeController;
+use App\Http\Controllers\SystemAdministrator\Profile\ProfileController as AdminProfileController;
+use App\Http\Controllers\Staff\Profile\ProfileController as StaffProfileController;
 use App\Http\Controllers\SystemAdministrator\Rank\RankController;
 use App\Http\Controllers\SystemAdministrator\Role\RoleController;
 use App\Http\Controllers\SystemAdministrator\User\UserController;
 use App\Http\Controllers\Upload\UploadController;
-use App\Http\Resources\User\UserResource;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,10 +25,6 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     Route::controller(UploadController::class)
         ->group(function () {
             Route::post('/upload', 'store');
@@ -39,6 +34,15 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/system-administrator')
         ->name('system-administrator.')
         ->group(function () {
+            Route::controller(AdminProfileController::class)
+            ->prefix('/profile')
+            ->name('profile.')
+            ->group(function() {
+                Route::get('/',  'index')->name('edit');
+                Route::put('/update-personal-information', 'updatePersonalInformation')->name('update.personal-information');
+                Route::put('/update-password', 'updatePassword')->name('update.password');
+            });
+
             Route::get('/', fn() =>  redirect()->route('system-administrator.dashboard'))->name('root');
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
 
@@ -125,6 +129,15 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/', fn() =>  redirect()->route('staff.dashboard'))->name('index');
             Route::get('/dashboard', 'index')->name('dashboard.index');
+
+            Route::controller(StaffProfileController::class)
+            ->prefix('/profile')
+            ->name('profile.')
+            ->group(function() {
+                Route::get('/', 'index')->name('edit');
+                Route::put('/update-personal-information', 'updatePersonalInformation')->name('update.personal-information');
+                Route::put('/update-password', 'updatePassword')->name('update.password');
+            });
 
             Route::controller(StaffCrewController::class)
                 ->prefix('/crews')

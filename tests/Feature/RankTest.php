@@ -26,7 +26,7 @@ describe('Rank Module', function(){
         ->create();
 
         $this->fakeData = [
-            'code' => fake()->bothify('??'),
+            'code' => fake()->bothify('???'),
             'short_name' => fake()->jobTitle(),
             'alias' =>  fake()->jobTitle(),
         ];

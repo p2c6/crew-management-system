@@ -33,11 +33,16 @@ interface User {
   avatar: string
 }
 
-defineProps<{
+const props = defineProps<{
   user: User
 }>()
 
 const { isMobile } = useSidebar()
+
+const account = () => {
+  const routeSlug = props.user.role.slug.replace("_", '-')
+  router.get(route(`${routeSlug}.profile.edit`))
+}
 
 const logout = () => {
   router.post(route('logout'))
@@ -54,15 +59,15 @@ const logout = () => {
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <Avatar class="h-8 w-8 rounded-lg grayscale">
-              <AvatarImage :src="user.avatar" :alt="user.full_name" />
+              <AvatarImage :src="props.user.avatar" :alt="props.user.full_name" />
               <AvatarFallback class="rounded-lg">
                 CN
               </AvatarFallback>
             </Avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
-              <span class="truncate font-medium">{{ user.full_name }}</span>
+              <span class="truncate font-medium">{{ props.user.full_name }}</span>
               <span class="text-muted-foreground truncate text-xs">
-                {{ user.email }}
+                {{ props.user.email }}
               </span>
             </div>
             <IconDotsVertical class="ml-auto size-4" />
@@ -77,28 +82,28 @@ const logout = () => {
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage :src="user.avatar" :alt="user.full_name" />
+                <AvatarImage :src="props.user.avatar" :alt="props.user.full_name" />
                 <AvatarFallback class="rounded-lg">
                   CN
                 </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-medium">{{ user.full_name }}</span>
+                <span class="truncate font-medium">{{ props.user.full_name }}</span>
                 <span class="text-muted-foreground truncate text-xs">
-                  {{ user.email }}
+                  {{ props.user.email }}
                 </span>
               </div>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem @click="account" class="hover:cursor-pointer">
               <IconUserCircle />
               Account
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem  @click="logout">
+          <DropdownMenuItem  @click="logout" class="hover:cursor-pointer">
             <IconLogout />
             Log out
           </DropdownMenuItem>
