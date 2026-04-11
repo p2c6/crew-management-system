@@ -8,6 +8,8 @@ use App\Policies\Staff\Dashboard\DashboardPolicy as StaffPolicy;
 use App\Policies\SystemAdministrator\Crew\CrewPolicy;
 use App\Policies\SystemAdministrator\Document\DocumentPolicy;
 use App\Policies\SystemAdministrator\DocumentType\DocumentTypePolicy;
+use App\Policies\SystemAdministrator\Profile\ProfilePolicy as SystemAdministratorProfilePolicy;
+use App\Policies\Staff\Profile\ProfilePolicy as StaffProfilePolicy;
 use App\Policies\SystemAdministrator\Rank\RankPolicy;
 use App\Policies\SystemAdministrator\Role\RolePolicy;
 use App\Policies\SystemAdministrator\User\UserPolicy;
@@ -79,6 +81,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('system-administrator-create-crew-documents', [CrewPolicy::class, 'createDocument']);
         Gate::define('system-administrator-update-crew-documents', [CrewPolicy::class, 'updateDocument']);
         Gate::define('system-administrator-delete-crew-documents', [CrewPolicy::class, 'deleteDocument']);
+        //PROFILE
+        Gate::define('system-administrator-update-profile', [SystemAdministratorProfilePolicy::class, 'update']);
+        Gate::define('system-administrator-update-personal-information', [SystemAdministratorProfilePolicy::class, 'updatePersonalInformation']);
+        Gate::define('system-administrator-update-password', [SystemAdministratorProfilePolicy::class, 'updatePassword']);
         //STAFF DASHBOARD
         Gate::define('staff-view-any-dashboard', [StaffPolicy::class, 'viewAny']);
         //CREW
@@ -92,5 +98,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('staff-create-crew-documents', [StaffCrewPolicy::class, 'createDocument']);
         Gate::define('staff-update-crew-documents', [StaffCrewPolicy::class, 'updateDocument']);
         Gate::define('staff-delete-crew-documents', [StaffCrewPolicy::class, 'deleteDocument']);
+         //PROFILE
+        Gate::define('staff-update-profile', [StaffProfilePolicy::class, 'update']);
+        Gate::define('staff-update-personal-information', [StaffProfilePolicy::class, 'updatePersonalInformation']);
+        Gate::define('staff-update-password', [StaffProfilePolicy::class, 'updatePassword']);
     }
 }
