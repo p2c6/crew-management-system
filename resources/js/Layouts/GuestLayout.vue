@@ -1,22 +1,33 @@
-<script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import { Link } from '@inertiajs/vue3';
+<script lang="ts">
+export const description = "A two column login page with a cover image."
+</script>
+<script setup lang="ts">
+import { GalleryVerticalEnd } from "lucide-vue-next"
 </script>
 
 <template>
-    <div
-        class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0"
-    >
-        <div>
-            <Link href="/">
-                <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
-            </Link>
-        </div>
-
-        <div
-            class="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg"
-        >
-            <slot />
-        </div>
+ <div class="grid min-h-svh lg:grid-cols-2">
+    <div class="flex flex-col gap-4 p-6 md:p-10">
+      <div class="flex justify-center gap-2 md:justify-start">
+        <a href="#" class="flex items-center gap-3 font-medium">
+          <img
+            src="../../../public/images/logo_256.png"
+            alt="Logo"
+            class="h-12 w-auto md:h-16 lg:h-20 object-contain"
+          >
+          SeaLink Crewing Inc.
+        </a>
+      </div>
+      <div class="flex flex-1 items-center justify-center">
+        <slot />
+      </div>
     </div>
+    <div class="bg-muted relative hidden lg:block">
+      <img
+        src="../../../public/images/hero2.jpg"
+        alt="Image"
+        class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+      >
+    </div>
+  </div>
 </template>
