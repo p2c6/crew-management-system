@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Document;
 
 use App\Http\Resources\DocumentType\DocumentTypeResource;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +27,7 @@ class DocumentResource extends JsonResource
             'code' => $this->code,
             'issued_date' => $this->getDateFormats($this->issued_date),
             'expiry_date' =>  $this->getDateFormats($this->expiry_date),
+            'encoded_by' => $this->whenLoaded('user', fn() => new UserResource($this->user))?->full_name,
         ];
     }
 
