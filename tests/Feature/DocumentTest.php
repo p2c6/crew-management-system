@@ -147,8 +147,8 @@ describe('Document Module', function () {
             'code'             => $updatedDocument['code'],
             'file_path'        => 'documents/' . $fileName,
             'file_name'        => $fileName,
-            'issued_date'      => $issuedDate,
-            'expiry_date'      => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
         ]);
     });
 
