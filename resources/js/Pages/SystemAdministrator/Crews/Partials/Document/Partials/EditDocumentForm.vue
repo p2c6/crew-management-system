@@ -79,11 +79,11 @@ const form = useForm<UpdateDocumentForm>({
   document_type_id: props.data?.document_type_id,
   code: props.data.code,
   documents: [],
-  issued_date: props.data?.issued_date
-    ? parseDate(props.data?.issued_date)
+  issued_date: props.data?.issued_date?.original
+    ? parseDate(props.data.issued_date.original.slice(0, 10))
     : null,
-  expiry_date: props.data?.expiry_date
-    ? parseDate(props.data?.expiry_date)
+  expiry_date: props.data?.expiry_date?.original
+    ? parseDate(props.data.expiry_date.original.slice(0, 10))
     : null,
 })
 
