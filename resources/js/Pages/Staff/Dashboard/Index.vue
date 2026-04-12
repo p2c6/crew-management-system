@@ -1,9 +1,22 @@
-<script setup>
+<script setup lang="ts">
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from '@/Components/ui/breadcrumb';
 import Separator from '@/Components/ui/separator/Separator.vue';
-import { SidebarInset, SidebarTrigger } from '@/Components/ui/sidebar';
+import { SidebarTrigger } from '@/Components/ui/sidebar';
 import StaffLayout from '@/Layouts/StaffLayout.vue';
 import { ChevronRight } from 'lucide-vue-next';
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/Components/ui/card"
+
+const props = defineProps<{
+    crews: String,
+    documents: String
+}>()
+
 </script>
 
 <template>
@@ -31,8 +44,33 @@ import { ChevronRight } from 'lucide-vue-next';
             </Breadcrumb>
             </div>
         </header>
-        <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
-            
+        <div class="flex flex-1 flex-row gap-4 p-4 pt-0">
+            <Card class="@container/card">
+                <CardHeader>
+                    <CardDescription>Total Crews</CardDescription>
+                    <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                    {{ props.crews }}
+                    </CardTitle>
+                </CardHeader>
+                <CardFooter class="flex-col items-start gap-1.5 text-sm">
+                    <div class="text-muted-foreground">
+                        Includes all active and onboard crew members
+                    </div>
+                </CardFooter>
+            </Card>
+            <Card class="@container/card">
+                <CardHeader>
+                    <CardDescription>Total Documents</CardDescription>
+                    <CardTitle class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                    {{ props.documents}}
+                    </CardTitle>
+                </CardHeader>
+                <CardFooter class="flex-col items-start gap-1.5 text-sm">
+                    <div class="text-muted-foreground">
+                        Total number of documents uploaded for all crew members
+                    </div>
+                </CardFooter>
+            </Card>
         </div>
     </StaffLayout>
 </template>
