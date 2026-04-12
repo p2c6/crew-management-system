@@ -97,8 +97,12 @@ const data = {
             class="data-[slot=sidebar-menu-button]:!p-1.5"
           >
             <a href="#">
-              <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">SeaLink Crewing Co.</span>
+               <img
+            src="../../../public/images/logo_256.png"
+            alt="Logo"
+            class="h-4 w-auto md:h-8 lg:h-12 object-contain"
+          >
+              <span class="text-base font-semibold">SeaLink Crewing Inc.</span>
             </a>
           </SidebarMenuButton>
         </SidebarMenuItem>
