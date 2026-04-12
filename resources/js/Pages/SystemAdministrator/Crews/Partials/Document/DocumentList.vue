@@ -126,6 +126,10 @@ const columns = [
     }
   },
   {
+    accessorKey: 'encoded_by',
+    label: 'Encoded By',
+  },
+  {
     accessorKey: 'action',
     label: 'Action', 
     visiblity: 'hidden',
