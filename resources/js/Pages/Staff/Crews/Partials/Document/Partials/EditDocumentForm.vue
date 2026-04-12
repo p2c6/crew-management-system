@@ -76,7 +76,7 @@ const existingFiles = props.data?.id
   : []
 
 const form = useForm<UpdateDocumentForm>({
-  document_type_id: props.data?.document_type_id,
+  document_type_id: props.data?.document_type.id,
   code: props.data.code,
   documents: [],
   issued_date: props.data?.issued_date?.original

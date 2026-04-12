@@ -104,6 +104,10 @@ const columns = [
       }, value)
   },
   {
+    accessorKey: 'document_type.name',
+    label: 'Document Type',
+  },
+  {
     accessorKey: 'code',
     label: 'Code',
   },
