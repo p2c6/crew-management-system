@@ -125,6 +125,7 @@ class CrewController extends Controller
         $crew->loadMissing('rank');
 
         $documents = $crew->documents()
+            ->with('documentType')
             ->paginate(10)
             ->withQueryString();
 
