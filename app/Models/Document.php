@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -32,8 +33,8 @@ class Document extends Model
         return $this->hasMany(Crew::class);
     }
 
-    public function documentType(): HasOne
+    public function documentType(): BelongsTo
     {
-        return $this->hasOne(DocumentType::class);
+        return $this->belongsTo(DocumentType::class);
     }
 }

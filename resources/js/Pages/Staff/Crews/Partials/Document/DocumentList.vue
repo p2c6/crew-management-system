@@ -45,6 +45,7 @@ import EditDocumentForm from './Partials/EditDocumentForm.vue'
 import DeleteDocumentDialog from './Partials/DeleteDocumentDialog.vue'
 import { route } from 'ziggy-js'
 import { StoreDocumentForm } from '@/types/Document'
+import dayjs from "dayjs";
 
 const props = defineProps<{
   documents: Object,
@@ -63,13 +64,38 @@ const formatDateValue = (date: DateValue) => {
   return `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
 }
 
+const handleExpirationSchemeBG = (date:string): string|undefined => {
+  const now = dayjs(); 
+  const expirationDate = dayjs(date);
+
+  const daysLeft = Math.ceil(expirationDate.diff(now, 'day', true));
+
+  if (daysLeft < 0) {
+    return 'bg-red-700 text-white p-2 rounded-sm';
+  }
+
+  if (daysLeft <= 7) {
+    return 'bg-red-500 text-white p-2 rounded-sm';
+  }
+
+  if (daysLeft <= 30) {
+    return 'bg-yellow-300 text-white p-2 rounded-sm';
+  }
+
+  if (daysLeft <= 90) {
+    return 'bg-orange-300 text-white p-2 rounded-sm';
+  }
+
+  return undefined;
+}
+
 const columns = [
   {
     accessorKey: 'file_name',
     label: 'File',
     render: (value: string, row: any) =>
       h('a', {
-        href: route('staff.crews.documents.view', {
+        href: route('system-administrator.crews.documents.view', {
           crew: row.crew_id,
           document: row.id
         }),
@@ -78,8 +104,31 @@ const columns = [
       }, value)
   },
   {
+    accessorKey: 'document_type.name',
+    label: 'Document Type',
+  },
+  {
+    accessorKey: 'code',
+    label: 'Code',
+  },
+  {
+    accessorKey: 'issued_date.for_human',
+    label: 'Issued Date',
+  },
+  {
+    accessorKey: 'expiry_date.for_human',
+    label: 'Expiration Date',
+    render: (value: string, row: any) => {
+      const coloredValue = handleExpirationSchemeBG(row.expiry_date.original)
+      return  h('span', {
+        class: coloredValue,
+      }, value)
+    }
+  },
+  {
     accessorKey: 'action',
-    label: 'Action', visiblity: 'hidden',
+    label: 'Action', 
+    visiblity: 'hidden',
     allowedActions: [
       {
         icon: IconPencil,
