@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Dom\DocumentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,6 +20,11 @@ class Document extends Model
         'issued_date',
         'expiry_date',
         'user_id',
+    ];
+
+    protected $casts = [
+        'issued_date' => 'date',
+        'expiry_date' => 'date',
     ];
 
     public function crew(): HasMany
