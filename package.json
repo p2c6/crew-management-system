@@ -37,7 +37,7 @@
         "filepond-plugin-pdf-preview": "^1.0.4",
         "lucide-vue-next": "^0.575.0",
         "qs-esm": "^7.0.3",
-        "reka-ui": "^2.8.2",
+        "reka-ui": "^2.9.5",
         "tailwind-merge": "^3.5.0",
         "tailwindcss-animate": "^1.0.7",
         "vue-filepond": "^7.0.4",
