@@ -58,8 +58,8 @@ describe('Document Module', function () {
             'file_name' =>  $fileName,
             'file_path' => 'documents/' . $fileName,
             'code' =>  Str::upper(fake()->bothify('???')),
-            'issued_date' => $issuedDate,
-            'expiry_date' => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
             'documents' => [$uuid]
         ];
     });
@@ -126,8 +126,8 @@ describe('Document Module', function () {
             'file_name'            => $fileName,
             'file_path'            => 'documents/' . $fileName,
             'code'                 => Str::upper(fake()->bothify('???')),
-            'issued_date'          => $issuedDate,
-            'expiry_date'          => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
             'documents'            => [$newUuid],
         ];
 
@@ -147,8 +147,8 @@ describe('Document Module', function () {
             'code'             => $updatedDocument['code'],
             'file_path'        => 'documents/' . $fileName,
             'file_name'        => $fileName,
-            'issued_date'      => $issuedDate,
-            'expiry_date'      => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
         ]);
     });
 
@@ -172,8 +172,8 @@ describe('Document Module', function () {
             'file_name' =>  $fileName,
             'file_path' => 'documents/' . $fileName,
             'code' =>  Str::upper(fake()->bothify('???')),
-            'issued_date' => $issuedDate,
-            'expiry_date' => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
             'documents' => [$newUuid],
             'existing_document_id' => $document->id
 
@@ -190,8 +190,8 @@ describe('Document Module', function () {
             'document_type_id' => $document->document_type_id,
             'user_id' => $this->staff->id,
             'code' => $updatedDocument['code'],
-            'issued_date' => $issuedDate,
-            'expiry_date' => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
         ]);
     });
 
@@ -255,8 +255,8 @@ describe('Document Module', function () {
             'file_name'            => $fileName,
             'file_path'            => 'documents/' . $fileName,
             'code'                 => Str::upper(fake()->bothify('???')),
-            'issued_date'          => $issuedDate,
-            'expiry_date'          => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
             'documents'            => [$uuid],
         ];
 
@@ -295,8 +295,8 @@ describe('Document Module', function () {
             'file_name'            => $fileName,
             'file_path'            => 'documents/' . $fileName,
             'code'                 => Str::upper(fake()->bothify('???')),
-            'issued_date'          => $issuedDate,
-            'expiry_date'          => $expiryDate,
+            'issued_date'      => Carbon::parse($issuedDate)->toDateTimeString(),
+            'expiry_date'      => Carbon::parse($expiryDate)->toDateTimeString(),
             'documents'            => [$uuid],
         ];
 
