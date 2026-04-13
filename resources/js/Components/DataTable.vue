@@ -89,10 +89,7 @@ const hasNext = computed(() => links.value.next !== null)
 const pageLinks = computed<PageLink[]>(() => {
   const pages: PageLink[] = []
   for (let i = 1; i <= meta.value.last_page; i++) {
-    pages.push({
-      page: i,
-      active: i === meta.value.current_page,
-    })
+    pages.push({ page: i, active: i === meta.value.current_page })
   }
   return pages
 })
@@ -105,10 +102,34 @@ function goToPage(page: number) {
   })
 }
 
-function showEllipsisBefore(index: number): boolean {
-  if (index === 0) return false
-  return pageLinks.value[index].page - pageLinks.value[index - 1].page > 1
-}
+const visiblePages = computed(() => {
+  const total = meta.value.last_page
+  const current = meta.value.current_page
+  const delta = 2 // pages to show on each side of current
+
+  const range: (number | 'ellipsis')[] = []
+  const rangeSet = new Set<number>()
+
+  // Always include first, last, and window around current
+  const pagesToShow = new Set([
+    1,
+    total,
+    ...Array.from({ length: delta * 2 + 1 }, (_, i) => current - delta + i)
+      .filter(p => p >= 1 && p <= total),
+  ])
+
+  const sorted = [...pagesToShow].sort((a, b) => a - b)
+
+  for (let i = 0; i < sorted.length; i++) {
+    if (i > 0 && sorted[i] - sorted[i - 1] > 1) {
+      range.push('ellipsis')
+    }
+    range.push(sorted[i])
+    rangeSet.add(sorted[i])
+  }
+
+  return range
+})
 
 function getNestedValue(obj:any, path:any):any {
   return path.split('.').reduce((acc:any, key:any) => acc?.[key], obj);
@@ -191,7 +212,7 @@ function getNestedValue(obj:any, path:any):any {
         Showing {{ meta.from }}–{{ meta.to }} of {{ meta.total }} results
       </p>
 
-      <nav className="flex flex-row items-center gap-1">
+      <nav class="flex flex-row items-center gap-1">
         <Button
           variant="ghost"
           size="default"
@@ -200,26 +221,27 @@ function getNestedValue(obj:any, path:any):any {
           :class="{ 'pointer-events-none opacity-50': !hasPrev }"
           @click="goToPage(meta.current_page - 1)"
         >
-          <ChevronLeftIcon className="size-4" />
-          <span className="hidden sm:block">Previous</span>
+          <ChevronLeftIcon class="size-4" />
+          <span class="hidden sm:block">Previous</span>
         </Button>
 
-        <template v-for="(link, index) in pageLinks" :key="link.page">
+        <!-- ✅ Use visiblePages instead of pageLinks -->
+        <template v-for="(item, index) in visiblePages" :key="index">
           <span
-            v-if="showEllipsisBefore(index)"
-            className="flex size-9 items-center justify-center text-muted-foreground"
+            v-if="item === 'ellipsis'"
+            class="flex size-9 items-center justify-center text-muted-foreground"
           >
-            <MoreHorizontalIcon className="size-4" />
-            <span className="sr-only">More pages</span>
+            <MoreHorizontalIcon class="size-4" />
+            <span class="sr-only">More pages</span>
           </span>
-
           <Button
-            :variant="link.active ? 'default' : 'ghost'"
+            v-else
+            :variant="item === meta.current_page ? 'default' : 'ghost'"
             size="icon"
             class="size-9"
-            @click="goToPage(link.page)"
+            @click="goToPage(item)"
           >
-            {{ link.page }}
+            {{ item }}
           </Button>
         </template>
 
