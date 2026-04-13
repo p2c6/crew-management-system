@@ -6,7 +6,7 @@ import DataTable from '@/Components/DataTable.vue'
 import { Button } from '@/Components/ui/button'
 import 'vue-sonner/style.css'
 import { Toaster } from '@/Components/ui/sonner'
-import { Link } from "@inertiajs/vue3"
+import { Link, useForm } from "@inertiajs/vue3"
 import {
   IconPencil,
   IconPlus,
@@ -14,6 +14,22 @@ import {
 import DeleteCrewDialog from './Partials/DeleteCrewDialog.vue'
 import { route } from 'ziggy-js'
 import { Trash } from 'lucide-vue-next'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/Components/ui/dialog'
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
+import InputError from '@/Components/InputError.vue'
+import { toast } from 'vue-sonner'
+import { ref } from 'vue'
+
 const props = defineProps({
   crews: Object,
   filters: Object,
@@ -78,6 +94,36 @@ const columns = [
     ]
   }
 ];
+
+const isOpen = ref(false);
+
+const handleFormSuccess = () => {
+  isOpen.value = false; 
+};
+
+const form = useForm({
+  file: ''
+});
+
+const importCrew = () => {
+  form.post(route('system-administrator.crews.bulk-upload'), {
+    forceFormData: true,
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset()
+      handleFormSuccess()
+      toast.success('Crew has been imported')
+    },
+    onError: (error) => {
+      console.log('Import crew error', error)
+    }
+  })
+}
+
+const handleFileChange = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  form.file = target.files ? target.files[0] : null
+}
 </script>
 
 <template>
@@ -92,6 +138,46 @@ const columns = [
 
     <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div class="flex justify-end">
+        <Dialog v-model:open="isOpen">
+          <DialogTrigger as-child>
+            <Button variant="outline" size="sm" class="hover:bg-primary hover:text-white">
+              <IconPlus />
+              Import Crews
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent class="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Import Crews</DialogTitle>
+              <DialogDescription>
+                Import crews here.
+              </DialogDescription>
+            </DialogHeader>
+
+            <form @submit.prevent="importCrew">
+              <div class="grid gap-4 mb-2">
+                <div class="grid gap-3">
+                  <Label for="name-1">File</Label>
+                <Input
+                    type="file"
+                    @change="handleFileChange"
+                  />
+                  
+                <InputError
+                    :message="form.errors.file"
+                />
+                </div>
+              </div>
+
+              <DialogFooter>
+                <DialogClose as-child>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit">Save</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
         <Link :href="route('system-administrator.crews.create')">
           <Button variant="outline" size="sm" class="hover:bg-primary hover:text-white">
             <IconPlus />
@@ -99,7 +185,7 @@ const columns = [
           </Button>
         </Link>
       </div>
-        <DataTable
+      <DataTable
         :resource="crews"
         :columns="columns"
         :filters="filters"

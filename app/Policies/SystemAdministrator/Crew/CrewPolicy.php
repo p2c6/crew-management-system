@@ -65,4 +65,10 @@ class CrewPolicy
         return $user->isAdmin() ? Response::allow() : 
             Response::deny('You are not allowed to access this resource', 403);
     }
+    
+    public function bulkUpload(User $user)
+    {
+        return $user->isAdmin() ? Response::allow() : 
+            Response::deny('You are not allowed to access this resource', 403);
+    }
 }

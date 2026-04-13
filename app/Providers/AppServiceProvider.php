@@ -81,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('system-administrator-create-crew-documents', [CrewPolicy::class, 'createDocument']);
         Gate::define('system-administrator-update-crew-documents', [CrewPolicy::class, 'updateDocument']);
         Gate::define('system-administrator-delete-crew-documents', [CrewPolicy::class, 'deleteDocument']);
+        Gate::define('system-administrator-bulk-upload-crews', [CrewPolicy::class, 'bulkUpload']);
         //PROFILE
         Gate::define('system-administrator-update-profile', [SystemAdministratorProfilePolicy::class, 'update']);
         Gate::define('system-administrator-update-personal-information', [SystemAdministratorProfilePolicy::class, 'updatePersonalInformation']);
