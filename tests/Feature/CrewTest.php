@@ -1,11 +1,14 @@
 <?php
 
 use App\Enums\UserRole;
+use App\Jobs\ImportCrewJob;
 use App\Models\Crew;
 use App\Models\Rank;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Laravel\actingAs;
@@ -309,5 +312,61 @@ describe('Crew Module', function () {
             ->assertSee('You are not allowed to access this resource');
 
         $this->assertDatabaseHas('crews', $this->fakeData);
+    });
+
+    test('admin can bulk upload crews and dispatch jobs on admin layout', function () {
+        Queue::fake();
+
+        $this->actingAs($this->admin);
+
+        $csvContent = "rank_id,first_name,middle_name,last_name,address,birth_date,email,weight,height
+        1,John,A,Doe,Manila,1995-05-10,john@example.com,70,175
+        5,Jane,B,Smith,Quezon City,1998-08-20,jane@example.com,60,165
+        12,Mark,C,Reyes,Cebu City,1992-03-15,mark@example.com,80,180
+        18,Ana,D,Cruz,Davao City,1996-11-25,ana@example.com,55,160";
+
+        $file = UploadedFile::fake()->createWithContent(
+            'crews.csv',
+            $csvContent
+        );
+
+        $response = $this->post(route('system-administrator.crews.bulk-upload'), [
+            'file' => $file
+        ]);
+
+        $response->assertRedirect();
+
+        Queue::assertPushed(ImportCrewJob::class, function ($job) {
+            return count($job->rows) > 0;
+        });
+    });
+
+    test('staff cannot bulk upload crews and dispatch jobs on admin layout', function () {
+        Queue::fake();
+
+        $this->actingAs($this->staff);
+
+        $csvContent = "rank_id,first_name,middle_name,last_name,address,birth_date,email,weight,height
+        1,John,A,Doe,Manila,1995-05-10,john@example.com,70,175
+        5,Jane,B,Smith,Quezon City,1998-08-20,jane@example.com,60,165
+        12,Mark,C,Reyes,Cebu City,1992-03-15,mark@example.com,80,180
+        18,Ana,D,Cruz,Davao City,1996-11-25,ana@example.com,55,160";
+
+        $file = UploadedFile::fake()->createWithContent(
+            'crews.csv',
+            $csvContent
+        );
+
+        $response = $this->post(route('system-administrator.crews.bulk-upload'), [
+            'file' => $file
+        ]);
+
+        $response->assertStatus(403)
+            ->assertSee('You are not allowed to access this resource');
+
+
+        Queue::assertNothingPushed(ImportCrewJob::class, function ($job) {
+            return count($job->rows) > 0;
+        });
     });
 });
