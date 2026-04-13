@@ -12,6 +12,7 @@ use App\Http\Resources\Crew\CrewResource;
 use App\Http\Resources\Document\DocumentResource;
 use App\Http\Resources\DocumentType\DocumentTypeResource;
 use App\Http\Resources\Rank\RankResource;
+use App\Jobs\ImportCrewJob;
 use App\Models\Crew;
 use App\Models\Document;
 use App\Models\DocumentType;
@@ -22,6 +23,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class CrewController extends Controller
 {
@@ -279,5 +281,28 @@ class CrewController extends Controller
     public function getAllDocumentTypes()
     {
         return DocumentType::query()->get();
+    }
+
+    public function bulkUpload(Request $request)
+    {
+        $this->authorize('system-administrator-bulk-upload-crews', User::class);
+
+        $request->validate([
+            'file' => 'required|file|mimes:csv'
+        ]);
+
+        $file = $request->file('file');
+
+        $data = array_map('str_getcsv', file($file->getRealPath()));
+
+        unset($data[0]);
+
+        $chunks = array_chunk($data, 1000);
+
+        foreach ($chunks as $chunk) {
+            dispatch(new ImportCrewJob($chunk));
+        }
+
+        return redirect()->back();
     }
 }

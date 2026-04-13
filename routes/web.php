@@ -118,6 +118,7 @@ Route::middleware('auth')->group(function () {
                         });
                     Route::get('/{crew}', 'show')->name('show');
                     Route::post('/store', 'store')->name('store');
+                    Route::post('/bulk-upload', 'bulkUpload')->name('bulk-upload');
                     Route::put('/{crew}', 'update')->name('update');
                     Route::delete('/{crew}', 'destroy')->name('destroy');
                 });
