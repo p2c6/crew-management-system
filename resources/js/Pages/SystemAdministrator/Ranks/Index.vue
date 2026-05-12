@@ -122,7 +122,7 @@ const createRank = () => {
 
           <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Add role</DialogTitle>
+              <DialogTitle>Add rank</DialogTitle>
               <DialogDescription>
                 Add your new rank here.
               </DialogDescription>
