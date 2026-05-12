@@ -36,13 +36,13 @@ const props = defineProps<{
                 <BreadcrumbList>
                 <BreadcrumbItem class="hidden md:block">
                     <BreadcrumbLink href="#">
-                    Building Your Application
+                    Dashboard
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 <ChevronRight size="1rem" />
                 <BreadcrumbSeparator class="hidden md:block" />
                 <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                    <BreadcrumbPage>Home</BreadcrumbPage>
                 </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
